@@ -1,0 +1,20 @@
+{
+  "name": "kalender",
+  "version": "0.1.0",
+  "description": "a base calendar module",
+  "main": "./kalender.js",
+  "dependencies": {
+    "lodash": "^3.6.0",
+  },
+  "devDependencies": {
+    "mocha": "^2.2.1"
+  },
+  "scripts": {
+    "test": "mocha"
+  },
+  "author": {
+      "name": "Ben van de Sande",
+      "email": "ben@pomodoro.nl"
+  },
+  "license": "MIT"
+}
