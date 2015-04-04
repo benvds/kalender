@@ -4,7 +4,7 @@
   "description": "a base calendar module",
   "main": "./kalender.js",
   "dependencies": {
-    "lodash": "^3.6.0",
+    "lodash": "^3.6.0"
   },
   "devDependencies": {
     "mocha": "^2.2.1"
