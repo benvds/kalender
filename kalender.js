@@ -9,6 +9,7 @@ var DAYS_PER_MONTH = {
     },
     MONTH_WITH_ADDITIONAL_DAY_ON_LEAP_YEAR = 2;
 
+
 function getMonth(year, month) {
     var dates = []
 
@@ -23,23 +24,24 @@ function getMonth(year, month) {
 }
 
 function amountOfDays(year, month) {
-    // TODO refactor into a expanded "find" function to increase readability
-    var amount = Number(_.reduce(DAYS_PER_MONTH,
-                           function(result, months, daysForMonth) {
-        return _.contains(months, month) ? daysForMonth : result;
-    }, 0));
+    var daysForMonth = Number(_.findKey(DAYS_PER_MONTH, function(months) {
+        return _.contains(months, month);
+    }));
 
+    return addLeapDay(daysForMonth, year, month);
+}
+
+function addLeapDay(daysForMonth, year, month) {
     if (month === MONTH_WITH_ADDITIONAL_DAY_ON_LEAP_YEAR && isLeapYear(year)) {
-        amount++;
+        return daysForMonth + 1;
+    } else {
+        return daysForMonth;
     }
-
-    return amount;
 }
 
 function isLeapYear(year) {
     return ((year % 4 === 0) && (year % 100 != 0)) || (year % 400 === 0);
 }
-
 
 var kalender = {
     getMonth: getMonth
