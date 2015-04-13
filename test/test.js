@@ -38,7 +38,9 @@ describe('kalender.getDays(year, month)', function(){
             });
         });
     });
+});
 
+describe('kalender.getCalendar({ year, month })', function(){
     describe('sibling months', function() {
         it('discards previous month when current month starts on weekStart',
            function()
