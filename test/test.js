@@ -1,7 +1,7 @@
 var k = require('../kalender'),
     assert = require('assert');
 
-describe('kalender.getDays(year, month)', function(){
+describe('kalender.days({ year, month })', function(){
     describe('returns the correct number of days', function() {
         var LEAP_YEARS = [1996, 2000, 2004],
             NON_LEAP_YEARS = [1997, 1998, 1999, 2100],
@@ -12,20 +12,20 @@ describe('kalender.getDays(year, month)', function(){
 
         it('for months with 31 days', function() {
             MONTHS_WITH_31_DAYS.forEach(function(month) {
-                assert.equal(31, k.getDays({ year: year, month: month }).length);
+                assert.equal(31, k.days({ year: year, month: month }).length);
             });
         });
 
         it('for months with 30 days', function() {
             MONTHS_WITH_30_DAYS.forEach(function(month) {
-                assert.equal(30, k.getDays({ year: year, month: month }).length);
+                assert.equal(30, k.days({ year: year, month: month }).length);
             });
         });
 
         it('for months with 29 days', function () {
             LEAP_YEARS.forEach(function(year) {
                 MONTHS_WITH_29_OR_28_DAYS.forEach(function(month) {
-                    assert.equal(29, k.getDays({ year: year, month: month }).length);
+                    assert.equal(29, k.days({ year: year, month: month }).length);
                 });
             });
         });
@@ -33,14 +33,14 @@ describe('kalender.getDays(year, month)', function(){
         it('for months with 28 days', function() {
             NON_LEAP_YEARS.forEach(function(year) {
                 MONTHS_WITH_29_OR_28_DAYS.forEach(function(month) {
-                    assert.equal(28, k.getDays({ year: year, month: month }).length);
+                    assert.equal(28, k.days({ year: year, month: month }).length);
                 });
             });
         });
     });
 });
 
-describe('kalender.getCalendar({ year, month })', function(){
+describe('kalender.calendar({ year, month })', function(){
     describe('sibling months', function() {
         it('discards previous month when current month starts on weekStart',
            function()
@@ -59,7 +59,7 @@ describe('kalender.getCalendar({ year, month })', function(){
                     month: 2,
                     day: 1
                 },
-                k.getCalendar(MONTH_WITH_FIRST_DAY_ON_WEEKSTART, options)[0]);
+                k.calendar(MONTH_WITH_FIRST_DAY_ON_WEEKSTART, options)[0]);
         });
 
         it('discards next month when current month ends on weeks end',
@@ -70,7 +70,7 @@ describe('kalender.getCalendar({ year, month })', function(){
                     year: 2015,
                     month: 1
                 };
-            var result = k.getCalendar(MONTH_WITH_LAST_DAY_ON_WEEKS_END); 
+            var result = k.calendar(MONTH_WITH_LAST_DAY_ON_WEEKS_END); 
             assert.deepEqual(
                 {
                     year: 2015,
@@ -87,7 +87,7 @@ describe('kalender.getCalendar({ year, month })', function(){
                     year: 2015,
                     month: 3
                 };
-            var result = k.getCalendar(MONTH_WITH_FIRST_DAY_ON_FRIDAY);
+            var result = k.calendar(MONTH_WITH_FIRST_DAY_ON_FRIDAY);
 
             assert.deepEqual({ year: 2015, month: 2, day: 29 }, result[0]);
             assert.deepEqual({ year: 2015, month: 2, day: 30 }, result[1]);
@@ -102,7 +102,7 @@ describe('kalender.getCalendar({ year, month })', function(){
                     year: 2015,
                     month: 2
                 };
-            var result = k.getCalendar(MONTH_WITH_LAST_DAY_ON_TUESDAY);
+            var result = k.calendar(MONTH_WITH_LAST_DAY_ON_TUESDAY);
 
             assert.deepEqual({ year: 2015, month: 2, day: 31 }, result[30]);
             assert.deepEqual({ year: 2015, month: 3, day: 1 }, result[31]);
@@ -116,7 +116,7 @@ describe('kalender.getCalendar({ year, month })', function(){
                     year: 2015,
                     month: 2
                 };
-            var result = k.getCalendar(MONTH_WITH_LAST_DAY_ON_TUESDAY);
+            var result = k.calendar(MONTH_WITH_LAST_DAY_ON_TUESDAY);
 
             assert.deepEqual({ year: 2015, month: 2, day: 31 }, result[30]);
             assert.deepEqual({ year: 2015, month: 3, day: 4 }, result[34]);

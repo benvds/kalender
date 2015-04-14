@@ -10,7 +10,7 @@ Basic implementation of a calender object. Bring your own rendering.
 ## Todo
 
 - [x] properties `month` and `weekDay` respect JavaScript’s [`Date.prototype`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Date/prototype).
-- [ ] refactor out months
+- [x] refactor out months
 - [ ] refactor getCalendar
 - [ ] refactor interface / api
 - [ ] documentation
