@@ -106,30 +106,38 @@ var day = (function() {
 var calendar = (function() {
     var DAYS_PER_WEEK = 7;
 
-    function calendar(mainMonth, options) {
-        var beforeDays = month.days(month.previousMonth(mainMonth));
-        var mainDays = month.days(mainMonth);
-        var afterDays = month.days(month.nextMonth(mainMonth));
-
-        var openWeekDaysBefore = day.dayOfWeek(mainDays[0]);
-        var openWeekDaysAfter =
-            (DAYS_PER_WEEK - 1) - day.dayOfWeek(_.last(mainDays));
-
-        var daysBefore = [],
-            daysAfter = [];
-
-        if (openWeekDaysBefore) {
-            daysBefore = beforeDays.slice(-1 * openWeekDaysBefore);
-        }
-
-        if (openWeekDaysAfter) {
-            daysAfter = afterDays.slice(0, openWeekDaysAfter);
-        }
-
+    function calendar(currentMonth) {
         return []
-            .concat(daysBefore)
-            .concat(mainDays)
-            .concat(daysAfter);
+            .concat(daysMissingBefore(currentMonth))
+            .concat(month.days(currentMonth))
+            .concat(daysMissingAfter(currentMonth));
+    }
+
+    function daysMissingBefore(currentMonth) {
+        if (amountMissingBefore(currentMonth)) {
+            return month.days(month.previousMonth(currentMonth))
+                .slice(-1 * amountMissingBefore(currentMonth));
+        } else {
+            return [];
+        }
+    }
+
+    function amountMissingBefore(currentMonth) {
+        return day.dayOfWeek(month.days(currentMonth)[0]);
+    }
+
+    function daysMissingAfter(currentMonth) {
+        if (amountMissingAfter(currentMonth)) {
+            return month.days(month.nextMonth(currentMonth))
+                .slice(0, amountMissingAfter(currentMonth));
+        } else {
+            return [];
+        }
+    }
+
+    function amountMissingAfter(currentMonth) {
+        return (DAYS_PER_WEEK - 1) -
+            day.dayOfWeek(_.last(month.days(currentMonth)));
     }
 
     return {
