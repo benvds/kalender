@@ -5,11 +5,11 @@ var _ = require('lodash');
 var DAYS_PER_WEEK = 7,
     MONTHS_PER_YEAR = 12,
     DAYS_PER_MONTH = {
-        '28': [2],
-        '30': [4, 6, 9, 11],
-        '31': [1, 3, 5, 7, 8, 10, 12]
+        '28': [1],
+        '30': [3, 5, 8, 10],
+        '31': [0, 2, 4, 6, 7, 9, 11]
     },
-    MONTH_WITH_ADDITIONAL_DAY_ON_LEAP_YEAR = 2;
+    MONTH_WITH_ADDITIONAL_DAY_ON_LEAP_YEAR = 1;
 
 function getCalendar(month, options) {
     var beforeDays = getDays(previousMonth(month));
@@ -37,7 +37,7 @@ function getCalendar(month, options) {
 }
 
 function dayOfWeek(day) {
-    var date = new Date(Date.UTC(day.year, day.month - 1, day.day));
+    var date = new Date(Date.UTC(day.year, day.month, day.day));
 
     return date.getDay();
 }
