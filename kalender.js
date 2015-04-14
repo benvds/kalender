@@ -37,10 +37,10 @@ var month = (function() {
     }
 
     function previousMonth(month) {
-        if (month.month === 1) {
+        if (month.month === 0) {
             return {
                 year: (month.year - 1),
-                month: MONTHS_PER_YEAR
+                month: MONTHS_PER_YEAR - 1
             };
         } else {
             return {
@@ -51,10 +51,10 @@ var month = (function() {
     }
 
     function nextMonth(month) {
-        if (month.month === MONTHS_PER_YEAR) {
+        if (month.month === MONTHS_PER_YEAR - 1) {
             return {
                 year: (month.year + 1),
-                month: 1
+                month: 0
             };
         } else {
             return {
@@ -67,8 +67,8 @@ var month = (function() {
     function days(month) {
         var days = []
 
-        for (var day = 1, amount = amountOfDays(month);
-             day <= amount;
+        for (var day = 0, amount = amountOfDays(month);
+             day < amount;
              day++)
         {
             days.push({
@@ -92,7 +92,7 @@ var month = (function() {
 
 var day = (function() {
     function dayOfWeek(day) {
-        var date = new Date(Date.UTC(day.year, day.month, day.day));
+        var date = new Date(Date.UTC(day.year, day.month, day.day + 1));
 
         return date.getDay();
     }
@@ -140,13 +140,13 @@ var calendar = (function() {
             day.dayOfWeek(_.last(month.days(currentMonth)));
     }
 
-    return {
-        calendar: calendar
-    }
+    return calendar;
 })();
 
 
 module.exports = {
-    days: month.days,
-    calendar: calendar.calendar
+    year: year,
+    month: month,
+    day: day,
+    calendar: calendar
 };
