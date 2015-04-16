@@ -13,8 +13,9 @@ Basic implementation of a calender object. Bring your own rendering.
 - [x] refactor out months
 - [x] refactor getCalendar
 - [x] refactor interface / api
-- [ ] decide if days should start at 0 or 1 (Date uses 1)
+- [x] months should start at 1, as with years and days, same for weekday, also 1 based, the JS api is just terrible
 - [ ] move year, month, day, calendar to separate files
+- [ ] try DAYS_PER_MONTH as array structure
 - [ ] documentation
 - [ ] indicate sibling months
 - [ ] indicate weekends

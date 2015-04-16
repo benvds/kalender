@@ -5,7 +5,7 @@ var _ = require('lodash');
 
 var year = (function() {
     function isLeapYear(year) {
-        return ((year % 4 === 0) && (year % 100 != 0)) || (year % 400 === 0);
+        return ((year % 4 === 0) && (year % 100 !== 0)) || (year % 400 === 0);
     }
 
     return {
@@ -16,14 +16,16 @@ var year = (function() {
 
 var month = (function() {
     var MONTHS_PER_YEAR = 12,
+        // TODO remove string keys, can be numbers
         DAYS_PER_MONTH = {
-            '28': [1],
-            '30': [3, 5, 8, 10],
-            '31': [0, 2, 4, 6, 7, 9, 11]
+            '28': [2],
+            '30': [4, 6, 9, 11],
+            '31': [1, 3, 5, 7, 8, 10, 12]
         },
-        MONTH_WITH_ADDITIONAL_DAY_ON_LEAP_YEAR = 1;
+        MONTH_WITH_ADDITIONAL_DAY_ON_LEAP_YEAR = 2;
 
     function amountOfDays(month) {
+        // TODO keys will be numbers already
         var daysPerMonth = Number(_.findKey(DAYS_PER_MONTH, function(months) {
             return _.contains(months, month.month);
         }));
@@ -37,10 +39,10 @@ var month = (function() {
     }
 
     function previousMonth(month) {
-        if (month.month === 0) {
+        if (month.month === 1) {
             return {
                 year: (month.year - 1),
-                month: MONTHS_PER_YEAR - 1
+                month: MONTHS_PER_YEAR
             };
         } else {
             return {
@@ -51,10 +53,10 @@ var month = (function() {
     }
 
     function nextMonth(month) {
-        if (month.month === MONTHS_PER_YEAR - 1) {
+        if (month.month === MONTHS_PER_YEAR) {
             return {
                 year: (month.year + 1),
-                month: 0
+                month: 1
             };
         } else {
             return {
@@ -65,20 +67,20 @@ var month = (function() {
     }
 
     function days(month) {
-        var days = []
+        var result = [];
 
-        for (var day = 0, amount = amountOfDays(month);
-             day < amount;
+        for (var day = 1, amount = amountOfDays(month);
+             day <= amount;
              day++)
         {
-            days.push({
+            result.push({
                 year: month.year,
                 month: month.month,
                 day: day
             });
         }
 
-        return days;
+        return result;
     }
 
     return {
@@ -92,9 +94,9 @@ var month = (function() {
 
 var day = (function() {
     function dayOfWeek(day) {
-        var date = new Date(Date.UTC(day.year, day.month, day.day + 1));
+        var date = new Date(Date.UTC(day.year, day.month - 1, day.day));
 
-        return date.getDay();
+        return date.getDay() + 1;
     }
 
     return {
@@ -123,7 +125,7 @@ var calendar = (function() {
     }
 
     function amountMissingBefore(currentMonth) {
-        return day.dayOfWeek(month.days(currentMonth)[0]);
+        return day.dayOfWeek(month.days(currentMonth)[0]) - 1;
     }
 
     function daysMissingAfter(currentMonth) {
@@ -136,8 +138,7 @@ var calendar = (function() {
     }
 
     function amountMissingAfter(currentMonth) {
-        return (DAYS_PER_WEEK - 1) -
-            day.dayOfWeek(_.last(month.days(currentMonth)));
+        return DAYS_PER_WEEK - day.dayOfWeek(_.last(month.days(currentMonth)));
     }
 
     return calendar;
