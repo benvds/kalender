@@ -3,9 +3,7 @@
   "version": "0.1.0",
   "description": "a base calendar module",
   "main": "./index.js",
-  "dependencies": {
-    "lodash": "^3.6.0"
-  },
+  "dependencies": {},
   "devDependencies": {
     "jscs": "^1.12.0",
     "jshint": "^2.7.0",
