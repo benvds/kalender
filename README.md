@@ -14,6 +14,17 @@ Using Date for a calendar object is also not necessary, it represents a moment
 in time. This library is only interested in days, months and years.
 
 
+## Goals
+
+I've been using various calender and datepicker widgets. Eventually I got
+frustrated with all of them. This is a just for fun project to do things my way.
+
+1. for modular use; calendar logic should not contain render logic
+2. readable, understandable and maintainable
+3. little to no dependencies, just for linting, testing and building
+4. well tested
+
+
 ## Usage
 
 
@@ -94,30 +105,13 @@ Returns day of week for given day. Results range from 1 to 7.
     1
 
 
-## Reasoning
-
-
-I've been using various calender and datepicker widgets. Eventually I got
-frustrated with all of them. This is a just for fun project to do things my way.
-
-They're either too big or have too many bugs. As a lazy dev I need code which I can easily understand to be able to fix or adjust. Most are not.
-
-
-## Goals
-
-1. for modular use; calendar logic should not contain render logic
-2. readable, understandable and maintainable
-3. little to no dependencies, just for linting, testing and building
-4. well tested
-
-
 ## Inspiration
 
 - https://github.com/WesleydeSouza/calendar-base
 - https://github.com/kylestetz/CLNDR
 
 
-## Todo
+## TODO
 
 - [ ] indicate sibling months
 - [ ] indicate weekends
