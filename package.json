@@ -13,7 +13,9 @@
   },
   "scripts": {
     "test": "mocha",
-    "lint": "jshint index.js lib && jscs index.js lib"
+    "lint:hint": "jshint index.js lib",
+    "lint:styleguide": "jscs index.js lib",
+    "lint": "npm run lint:hint && npm run lint:styleguide"
   },
   "author": {
     "name": "Ben van de Sande",
@@ -21,10 +23,10 @@
   },
   "license": "MIT",
   "jshintConfig": {
-      "node": true
+    "node": true
   },
   "jscsConfig": {
-      "preset": "airbnb",
-      "validateIndentation": 4
+    "preset": "airbnb",
+    "validateIndentation": 4
   }
 }
