@@ -2,19 +2,29 @@
   "name": "kalender",
   "version": "0.1.0",
   "description": "a base calendar module",
-  "main": "./kalender.js",
+  "main": "./index.js",
   "dependencies": {
     "lodash": "^3.6.0"
   },
   "devDependencies": {
+    "jscs": "^1.12.0",
+    "jshint": "^2.7.0",
     "mocha": "^2.2.1"
   },
   "scripts": {
-    "test": "mocha"
+    "test": "mocha",
+    "lint": "jshint index.js lib && jscs index.js lib"
   },
   "author": {
-      "name": "Ben van de Sande",
-      "email": "ben@pomodoro.nl"
+    "name": "Ben van de Sande",
+    "email": "ben@pomodoro.nl"
   },
-  "license": "MIT"
+  "license": "MIT",
+  "jshintConfig": {
+      "node": true
+  },
+  "jscsConfig": {
+      "preset": "airbnb",
+      "validateIndentation": 4
+  }
 }
