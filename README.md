@@ -118,5 +118,4 @@ Returns day of week for given day. Results range from 1 to 7.
 - [ ] set week start
 - [ ] setDate (selected date)
 - [ ] set start / end dates
-- [ ] no lodash dependency of lodash-fp
 - [ ] build system

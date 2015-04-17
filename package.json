@@ -21,7 +21,12 @@
   },
   "license": "MIT",
   "jshintConfig": {
-    "node": true
+    "node": true,
+    "quotmark": "single",
+    "unused": "strict",
+    "maxparams": 3,
+    "maxdepth": 3,
+    "maxstatements": 5
   },
   "jscsConfig": {
     "preset": "airbnb",
