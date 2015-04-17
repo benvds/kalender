@@ -7,8 +7,8 @@ Javascript's default Date interface. The API relies on objects with year, month
 and day attributes, e.g.
 `{ year: 2015, month: 12 }` and `{ year: 2014, month: 1, day: 31 }`.
 This library uses 1-based numbers for months and weekdays. Javascript's Date
-interface inconsistent uses 0-based index for months and week days, but not for
-month days or years.
+interface inconsistently uses 0-based index for months and week days, but not
+for month, days or years.
 
 Using Date for a calendar object is also not necessary, it represents a moment
 in time. This library is only interested in days, months and years.
@@ -49,7 +49,7 @@ Returns true when given year is a leap year.
 
 `month.days({ year: year, month: month })`
 
-Returns collection of day objects for given month
+Returns collection of day objects for given month.
 
     > month.days({ year: 2014, month: 12 });
     [ { year: 2014, month: 12, day: 1 },
@@ -86,10 +86,7 @@ Returns month next to given month.
 
 `day.dayOfWeek({ year: year, month: month, day: day })`
 
-Returns day of week for given day.
-
-**IMPORTANT**: This is a 1–based index, so januari is 1 and december is 12. This
-is in contrast with javascripts Date interface.
+Returns day of week for given day. Results range from 1 to 7.
 
     > day.dayOfWeek({ year: 2015, month: 4, day: 4 })
     7
@@ -97,18 +94,21 @@ is in contrast with javascripts Date interface.
     1
 
 
-## Reasoning and goals
+## Reasoning
 
-*TODO*
-Been using various calender and datepicker widgets. They're either too big or have too many bugs. As a lazy dev I need code which I can easily understand to be able to fix or adjust. Most are not.
 
-- basic calender component
-- modular
-- code quality (according my own standards) understandable,
-maintainable,
-my prefered coding style: functional, style etc.
-- only transpiling
-- little dependencies
+I've been using various calender and datepicker widgets. Eventually I got
+frustrated with all of them. This is a just for fun project to do things my way.
+
+They're either too big or have too many bugs. As a lazy dev I need code which I can easily understand to be able to fix or adjust. Most are not.
+
+
+## Goals
+
+1. for modular use; calendar logic should not contain render logic
+2. readable, understandable and maintainable
+3. little to no dependencies, just for linting, testing and building
+4. well tested
 
 
 ## Inspiration
