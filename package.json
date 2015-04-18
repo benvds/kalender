@@ -31,6 +31,8 @@
   },
   "jscsConfig": {
     "preset": "airbnb",
-    "validateIndentation": 4
+    "validateIndentation": 4,
+    "disallowNewlineBeforeBlockStatements": null,
+    "requireSpaceBeforeBlockStatements": null
   }
 }

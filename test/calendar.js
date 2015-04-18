@@ -17,7 +17,8 @@ describe('calendar(month)', function(){
                     month: 3,
                     day: 1
                 },
-                k.calendar(MONTH_WITH_FIRST_DAY_ON_WEEKSTART)[0]);
+                _.pick(k.calendar(MONTH_WITH_FIRST_DAY_ON_WEEKSTART)[0],
+                       ['year', 'month', 'day']));
         });
 
         it('discards next month when current month ends on weeks end',
@@ -28,14 +29,15 @@ describe('calendar(month)', function(){
                     year: 2015,
                     month: 2
                 };
-            var result = k.calendar(MONTH_WITH_LAST_DAY_ON_WEEKS_END); 
+            var result = k.calendar(MONTH_WITH_LAST_DAY_ON_WEEKS_END);
             assert.deepEqual(
                 {
                     year: 2015,
                     month: 2,
                     day: 28
                 },
-                result[result.length - 1]);
+                _.pick(result[result.length - 1],
+                       ['year', 'month', 'day']));
         });
 
         it('includes last days of previous month ' +

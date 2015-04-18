@@ -80,15 +80,14 @@ describe('month', function(){
             assert.equal(29, days.length);
         });
 
-        xit('returns weekDays for each day', function() {
-            // var days = k.month.days({ year: 2000, month: 2 });
-            //
-            // for (var i = 1; i < 30; i++) {
-            //     assert.equal(2, days[i - 1].month);
-            //     assert.equal(i, days[i - 1].day);
-            // }
-            //
-            // assert.equal(29, days.length);
+        it('returns weekDays for each day', function() {
+            var days = k.month.days({ year: 2015, month: 4 });
+
+            assert.equal(4, days[0].weekDay);
+            assert.equal(5, days[1].weekDay);
+            assert.equal(6, days[2].weekDay);
+            assert.equal(7, days[3].weekDay);
+            assert.equal(1, days[4].weekDay);
         });
     });
 });
