@@ -37,13 +37,13 @@ sibling months to make for full weeks. Sibling months are marked with
 `isSiblingMonth: true`.
 
     > kalender.calendar({ year: 2011, month: 12 });
-    [ { year: 2011, month: 11, day: 27, isSiblingMonth: true },
-      { year: 2011, month: 11, day: 28, isSiblingMonth: true },
-      { year: 2011, month: 11, day: 29, isSiblingMonth: true },
-      { year: 2011, month: 11, day: 30, isSiblingMonth: true },
-      { year: 2011, month: 12, day: 1 },
-      { year: 2011, month: 12, day: 2 },
-      { year: 2011, month: 12, day: 3 },
+    [ { year: 2011, month: 11, day: 27, weekDay: 1, isSiblingMonth: true },
+      { year: 2011, month: 11, day: 28, weekDay: 2, isSiblingMonth: true },
+      { year: 2011, month: 11, day: 29, weekDay: 3, isSiblingMonth: true },
+      { year: 2011, month: 11, day: 30, weekDay: 4, isSiblingMonth: true },
+      { year: 2011, month: 12, day: 1, weekDay: 5 },
+      { year: 2011, month: 12, day: 2, weekDay: 6 },
+      { year: 2011, month: 12, day: 3, weekDay: 7 },
     ...
 
 
@@ -64,9 +64,9 @@ Returns true when given year is a leap year.
 Returns collection of day objects for given month.
 
     > month.days({ year: 2014, month: 12 });
-    [ { year: 2014, month: 12, day: 1 },
-      { year: 2014, month: 12, day: 2 },
-      { year: 2014, month: 12, day: 3 },
+    [ { year: 2014, month: 12, day: 1, weekDay: 2 },
+      { year: 2014, month: 12, day: 2, weekDay: 3 },
+      { year: 2014, month: 12, day: 3, weekDay: 4 },
     ...
 
 
@@ -114,8 +114,9 @@ Returns day of week for given day. Results range from 1 to 7.
 
 ## TODO
 
-- [ ] indicate weekdays
 - [ ] set week start
-- [ ] setDate (selected date)
-- [ ] set start / end dates
 - [ ] build system
+
+- selection module separate?
+    - [ ] setDate (selected date)
+    - [ ] set start / end dates
