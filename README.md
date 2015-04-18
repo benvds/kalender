@@ -14,7 +14,7 @@ Using Date for a calendar object is not necessary, it represents a moment in
 time. This library is only interested in days, months and years.
 
 
-## Goals
+## Reasoning
 
 I've been using various calender and datepicker widgets. Eventually I got
 frustrated with all of them. This is a just for fun project to do things my way.
@@ -30,11 +30,12 @@ frustrated with all of them. This is a just for fun project to do things my way.
 
 ### calendar
 
-`calendar({ year: year, month: month })`
+`calendar({ year: year, month: month }[, { weekStart: 1 }])`
 
 Returns collection of day objects for the given month. Includes days from
 sibling months to make for full weeks. Sibling months are marked with
 `isSiblingMonth: true`.
+Option `weekStart` sets the first day of the week.
 
     > kalender.calendar({ year: 2011, month: 12 });
     [ { year: 2011, month: 11, day: 27, weekDay: 1, isSiblingMonth: true },
