@@ -1,12 +1,13 @@
 {
   "name": "kalender",
   "version": "0.1.0",
-  "description": "a base calendar module",
+  "description": "Basic library of helper functions for rendering calendars.",
   "main": "./index.js",
   "dependencies": {},
   "devDependencies": {
     "jscs": "^1.12.0",
     "jshint": "^2.7.0",
+    "lodash": "^3.7.0",
     "mocha": "^2.2.1"
   },
   "scripts": {

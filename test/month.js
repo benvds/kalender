@@ -73,10 +73,22 @@ describe('month', function(){
             var days = k.month.days({ year: 2000, month: 2 });
 
             for (var i = 1; i < 30; i++) {
-                assert.deepEqual({ year: 2000, month: 2, day: i }, days[i - 1]);
+                assert.equal(2, days[i - 1].month);
+                assert.equal(i, days[i - 1].day);
             }
 
             assert.equal(29, days.length);
+        });
+
+        xit('returns weekDays for each day', function() {
+            // var days = k.month.days({ year: 2000, month: 2 });
+            //
+            // for (var i = 1; i < 30; i++) {
+            //     assert.equal(2, days[i - 1].month);
+            //     assert.equal(i, days[i - 1].day);
+            // }
+            //
+            // assert.equal(29, days.length);
         });
     });
 });
