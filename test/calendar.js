@@ -114,3 +114,18 @@ describe('calendar(month)', function(){
         });
     });
 });
+describe('calendar(month, options)', function(){
+    describe('option weekStart', function() {
+        it('defaults to 1', function () {
+            var result = k.calendar({ year: 2015, month: 3 });
+
+            assert.equal(1, result[0].weekDay);
+        });
+
+        it('can be set', function () {
+            var result = k.calendar({ year: 2015, month: 3 }, { weekStart: 2 });
+
+            assert.equal(2, result[0].weekDay);
+        });
+    });
+});

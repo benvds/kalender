@@ -114,7 +114,6 @@ Returns day of week for given day. Results range from 1 to 7.
 
 ## TODO
 
-- [ ] set week start
 - [ ] build system
 
 - selection module separate?
