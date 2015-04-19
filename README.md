@@ -14,17 +14,6 @@ Using Date for a calendar object is not necessary, it represents a moment in
 time. This library is only interested in days, months and years.
 
 
-## Reasoning
-
-I've been using various calender and datepicker widgets. Eventually I got
-frustrated with all of them. This is a just for fun project to do things my way.
-
-1. for modular use; calendar logic should not contain render logic
-2. readable, understandable and maintainable
-3. little to no dependencies, just for linting, testing and building
-4. well tested
-
-
 ## Usage
 
 
@@ -107,6 +96,33 @@ Returns day of week for given day. Results range from 1 to 7.
     1
 
 
+## Build
+
+    > npm install
+    > npm run dist
+
+
+## Lint
+
+    > npm run lint
+
+
+## Test
+
+    > npm test
+
+
+## Reasoning
+
+I've been using various calender and datepicker widgets. Eventually I got
+frustrated with all of them. This is a just for fun project to do things my way.
+
+1. for modular use; calendar logic should not contain render logic
+2. readable, understandable and maintainable
+3. little to no dependencies, just for linting, testing and building
+4. well tested
+
+
 ## Inspiration
 
 - https://github.com/WesleydeSouza/calendar-base
@@ -115,8 +131,7 @@ Returns day of week for given day. Results range from 1 to 7.
 
 ## TODO
 
-- [ ] build system
-
 - selection module separate?
     - [ ] setDate (selected date)
     - [ ] set start / end dates
+    - [ ] "events" separate from just date range selections?

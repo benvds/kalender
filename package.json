@@ -5,16 +5,21 @@
   "main": "./index.js",
   "dependencies": {},
   "devDependencies": {
+    "exorcist": "^0.2.0",
     "jscs": "^1.12.0",
     "jshint": "^2.7.0",
     "lodash": "^3.7.0",
-    "mocha": "^2.2.1"
+    "mocha": "^2.2.1",
+    "uglify-js": "^2.4.20"
   },
   "scripts": {
     "test": "mocha",
     "lint:hint": "jshint index.js lib",
     "lint:styleguide": "jscs index.js lib",
-    "lint": "npm run lint:hint && npm run lint:styleguide"
+    "lint": "npm run lint:hint && npm run lint:styleguide",
+    "dist:bundle": "browserify ./index.js --standalone kalender --debug | exorcist ./dist/kalender.js.map > ./dist/kalender.js",
+    "dist:compress": "uglifyjs --compress warnings=false --mangle --bare-returns --output ./dist/kalender.min.js -- ./dist/kalender.js",
+    "dist": "npm run dist:bundle && npm run dist:compress"
   },
   "author": {
     "name": "Ben van de Sande",
