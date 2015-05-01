@@ -121,6 +121,14 @@ frustrated with all of them. This is a just for fun project to do things my way.
 2. readable, understandable and maintainable
 3. little to no dependencies, just for linting, testing and building
 4. well tested
+- commonjs modules
+- no deeply nested if statements or block scopes
+- functional(ish) code
+- optimize for readibility not performance (not necessary)
+- bare minimum api, not much to learn, easy to understand and maintain:
+  just fork and adjust the code or map it's output
+- sane defaults (objects, strings, date, momentjs)
+- NO CALLBACK METHOD (give example with mapMatrix)
 
 
 ## Inspiration
@@ -131,7 +139,13 @@ frustrated with all of them. This is a just for fun project to do things my way.
 
 ## TODO
 
+- weekDay should be dayOfWeek
+- dayOfWeek 0 indexed (doesn't need to be parsed from string, is normally never
+  written as an integer, can be used directy in array)
+- util is before isafter mapdays
+- check: first & last should be start and end like ical
 - selection module separate?
     - [ ] setDate (selected date)
     - [ ] set start / end dates
     - [ ] "events" separate from just date range selections?
+    - [ ] sane defaults like current month, current event, etc.
