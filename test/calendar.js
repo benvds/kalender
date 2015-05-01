@@ -116,10 +116,10 @@ describe('calendar(month)', function(){
 });
 describe('calendar(month, options)', function(){
     describe('option weekStart', function() {
-        it('defaults to 1', function () {
+        it('defaults to 0', function () {
             var result = k.calendar({ year: 2015, month: 3 });
 
-            assert.equal(1, result[0].dayOfWeek);
+            assert.equal(0, result[0].dayOfWeek);
         });
 
         it('can be set', function () {

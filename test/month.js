@@ -83,11 +83,11 @@ describe('month', function(){
         it('returns dayOfWeeks for each day', function() {
             var days = k.month.days({ year: 2015, month: 4 });
 
-            assert.equal(4, days[0].dayOfWeek);
-            assert.equal(5, days[1].dayOfWeek);
-            assert.equal(6, days[2].dayOfWeek);
-            assert.equal(7, days[3].dayOfWeek);
-            assert.equal(1, days[4].dayOfWeek);
+            assert.equal(3, days[0].dayOfWeek);
+            assert.equal(4, days[1].dayOfWeek);
+            assert.equal(5, days[2].dayOfWeek);
+            assert.equal(6, days[3].dayOfWeek);
+            assert.equal(0, days[4].dayOfWeek);
         });
     });
 });
