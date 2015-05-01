@@ -139,7 +139,6 @@ frustrated with all of them. This is a just for fun project to do things my way.
 
 ## TODO
 
-- weekDay should be dayOfWeek
 - dayOfWeek 0 indexed (doesn't need to be parsed from string, is normally never
   written as an integer, can be used directy in array)
 - util is before isafter mapdays
