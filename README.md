@@ -139,6 +139,7 @@ frustrated with all of them. This is a just for fun project to do things my way.
 
 ## TODO
 
+- BUG not enough days included for next month
 - util is before isafter mapdays
 - check: first & last should be start and end like ical
 - selection module separate?
