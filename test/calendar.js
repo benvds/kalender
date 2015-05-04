@@ -61,6 +61,8 @@ describe('calendar(month)', function(){
 
         // TODO BUG: not enough days are included, test with:
         // { year 2015, month: 3 }, { weekStart: 1 }
+        // set ends on day before weekStart as last day of month or on day in
+        // the next month
         it('includes first days of next month ' +
             'when month ends before week end', function ()
         {
@@ -76,18 +78,15 @@ describe('calendar(month)', function(){
                              _.pick(result[4][3], ['month', 'day']));
         });
 
-        it('excludes a week start in the next month ', function () {
+        it('ends on day before next weekstart of the next month', function () {
             var MONTH_WITH_LAST_DAY_ON_TUESDAY = {
                     year: 2015,
                     month: 3
                 };
             var result = k.calendar(MONTH_WITH_LAST_DAY_ON_TUESDAY);
 
-            assert.deepEqual({ month: 3, day: 31 }, _.pick(_.last(result)[2],
-                                                           ['month', 'day']));
-            assert.deepEqual({ month: 4, day: 4 }, _.pick(_.last(result)[6],
+            assert.deepEqual({ month: 4, day: 4 }, _.pick(result[4][6],
                                                           ['month', 'day']));
-            assert.equal(undefined, _.last(result)[7]);
         });
 
         it('previous months are marked as sibling month', function () {
@@ -134,6 +133,20 @@ describe('calendar(month, options)', function(){
             assert.equal(2, result[0][0].dayOfWeek);
             assert.equal(2, result[0][0].month);
             assert.equal(24, result[0][0].day);
+        });
+
+        it('affects appending sibling month', function () {
+            var MONTH_WITH_LAST_DAY_ON_TUESDAY = {
+                    year: 2015,
+                    month: 3
+                };
+            var result = k.calendar(MONTH_WITH_LAST_DAY_ON_TUESDAY, { weekStart: 4 });
+            var result2 = k.calendar(MONTH_WITH_LAST_DAY_ON_TUESDAY, { weekStart: 1 });
+
+            assert.deepEqual({ month: 4, day: 1 }, _.pick(result[4][6],
+                                                          ['month', 'day']));
+            assert.deepEqual({ month: 4, day: 5 }, _.pick(result2[5][6],
+                                                          ['month', 'day']));
         });
     });
 });

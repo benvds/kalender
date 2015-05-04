@@ -3,10 +3,11 @@ module.exports = {
     year: require('./lib/year'),
     month: require('./lib/month'),
     day: require('./lib/day'),
-    calendar: require('./lib/calendar')
+    calendar: require('./lib/calendar'),
+    util: require('./lib/util')
 };
 
-},{"./lib/calendar":2,"./lib/day":3,"./lib/month":4,"./lib/year":5}],2:[function(require,module,exports){
+},{"./lib/calendar":2,"./lib/day":3,"./lib/month":4,"./lib/util":5,"./lib/year":6}],2:[function(require,module,exports){
 'use strict';
 
 var month = require('./month');
@@ -27,10 +28,31 @@ var DAYS_PER_WEEK = 7;
  * @returns {Object[]} days
  */
 function calendar(currentMonth, options) {
-    return []
+    var days = []
         .concat(daysMissingBefore(currentMonth, weekStart(options)))
         .concat(month.days(currentMonth))
         .concat(daysMissingAfter(currentMonth, weekStart(options)));
+
+    return groupPerWeek(days);
+}
+
+/**
+ * Group the days per week.
+ *
+ * @argument {Object[]} days
+ *
+ * @returns {Object[][]} returns a matrix of weeks and days
+ */
+function groupPerWeek(days) {
+    var amountOfWeeks = days.length / DAYS_PER_WEEK;
+    var weeks = [];
+
+    for (var week = 0; week < amountOfWeeks; week++) {
+        weeks.push(days.slice(week * DAYS_PER_WEEK,
+                              (week + 1) * DAYS_PER_WEEK));
+    }
+
+    return weeks;
 }
 
 /**
@@ -43,7 +65,7 @@ function calendar(currentMonth, options) {
  * @returns {Number} week start
  */
 function weekStart(options) {
-    var WEEK_START_DEFAULT = 1;
+    var WEEK_START_DEFAULT = 0;
 
     if (options && options.weekStart) {
         return options.weekStart;
@@ -84,7 +106,7 @@ function daysMissingBefore(currentMonth, weekStart) {
  */
 function amountMissingBefore(currentMonth, weekStart) {
     return (DAYS_PER_WEEK - weekStart +
-            month.days(currentMonth)[0].weekDay) % DAYS_PER_WEEK;
+            month.days(currentMonth)[0].dayOfWeek) % DAYS_PER_WEEK;
 }
 
 /**
@@ -119,8 +141,9 @@ function daysMissingAfter(currentMonth, weekStart) {
  */
 function amountMissingAfter(currentMonth, weekStart) {
     var days = month.days(currentMonth);
+    var lastDayOfWeek = day.dayOfWeek(days[(days.length - 1)]);
 
-    return DAYS_PER_WEEK - day.dayOfWeek(days[days.length - weekStart]);
+    return ((DAYS_PER_WEEK + weekStart) - lastDayOfWeek - 1) % DAYS_PER_WEEK;
 }
 
 /**
@@ -157,9 +180,9 @@ module.exports = calendar;
  * @returns {Number} day of week
  */
 function dayOfWeek(day) {
-    var date = new Date(Date.UTC(day.year, day.month - 1, day.day));
+    var date = new Date(day.year, day.month - 1, day.day);
 
-    return date.getDay() + 1;
+    return date.getDay();
 }
 
 module.exports = {
@@ -272,7 +295,7 @@ function days(month) {
             year: month.year,
             month: month.month,
             day: currentDay,
-            weekDay: day.dayOfWeek({
+            dayOfWeek: day.dayOfWeek({
                 year: month.year,
                 month: month.month,
                 day: currentDay
@@ -290,7 +313,29 @@ module.exports = {
     days: days
 };
 
-},{"./day":3,"./year":5}],5:[function(require,module,exports){
+},{"./day":3,"./year":6}],5:[function(require,module,exports){
+'use strict';
+
+/**
+ * Returns a new calendar with the results of calling a provided callback
+ * function on every day.
+ *
+ * @argument {Object[][]} calendar
+ * @argument {Function} callback
+ *
+ * @returns {Object[][]} calendar with days mapped with callback
+ */
+function mapDays(calendar, callback) {
+    return calendar.map(function(week) {
+        return week.map(callback);
+    });
+}
+
+module.exports = {
+    mapDays: mapDays
+};
+
+},{}],6:[function(require,module,exports){
 'use strict';
 
 /**
