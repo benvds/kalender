@@ -96,6 +96,37 @@ Returns day of week for given day. Results range from 1 to 7.
     1
 
 
+### util
+
+`util.mapDays(caldendar, callback)`
+
+Returns a new calendar with the results of calling a provided callback function
+on every day.
+
+    > util.mapDays(calendar, function yearsOnly(day) {
+    >     return { year: day.year };
+    > });
+    [ [ { year: 2015 },
+        { year: 2015 },
+        ...
+
+`util.isBefore(subjectDay, comparisonDay);`
+
+Returns if subject day is before comparison day.
+
+    > util.isBefore({ year: 2015, month: 1, day: 1},
+    >     { year: 2015, month: 1, day: 2});
+    true
+
+`util.isAfter(subjectDay, comparisonDay);`
+
+Returns if subject day is after comparison day.
+
+    > util.isAfter({ year: 2015, month: 4, day: 4},
+    >     { year: 2015, month: 3, day: 3});
+    true
+
+
 ## Build
 
     > npm install
@@ -139,8 +170,6 @@ frustrated with all of them. This is a just for fun project to do things my way.
 
 ## TODO
 
-- BUG not enough days included for next month
-- util is before isafter mapdays
 - check: first & last should be start and end like ical
 - selection module separate?
     - [ ] setDate (selected date)
