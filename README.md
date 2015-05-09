@@ -95,6 +95,22 @@ Returns day of week for given day. Results range from 1 to 7.
     > day.dayOfWeek({ year: 2015, month: 4, day: 5 })
     1
 
+`day.isBefore(subjectDay, comparisonDay);`
+
+Returns if subject day is before comparison day.
+
+    > day.isBefore({ year: 2015, month: 1, day: 1},
+    >     { year: 2015, month: 1, day: 2});
+    true
+
+`day.isAfter(subjectDay, comparisonDay);`
+
+Returns if subject day is after comparison day.
+
+    > day.isAfter({ year: 2015, month: 4, day: 4},
+    >     { year: 2015, month: 3, day: 3});
+    true
+
 
 ### util
 
@@ -109,22 +125,6 @@ on every day.
     [ [ { year: 2015 },
         { year: 2015 },
         ...
-
-`util.isBefore(subjectDay, comparisonDay);`
-
-Returns if subject day is before comparison day.
-
-    > util.isBefore({ year: 2015, month: 1, day: 1},
-    >     { year: 2015, month: 1, day: 2});
-    true
-
-`util.isAfter(subjectDay, comparisonDay);`
-
-Returns if subject day is after comparison day.
-
-    > util.isAfter({ year: 2015, month: 4, day: 4},
-    >     { year: 2015, month: 3, day: 3});
-    true
 
 
 ## Build
@@ -170,9 +170,7 @@ frustrated with all of them. This is a just for fun project to do things my way.
 
 ## TODO
 
-- check: first & last should be start and end like ical
-- selection module separate?
-    - [ ] setDate (selected date)
-    - [ ] set start / end dates
-    - [ ] "events" separate from just date range selections?
-    - [ ] sane defaults like current month, current event, etc.
+- compare day (equals)
+- default to today
+- flag today
+- select day (take object, strings, Date)
