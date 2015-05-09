@@ -51,4 +51,23 @@ describe('day', function() {
             assert(!k.day.isAfter(subject, comparison));
         });
     });
+
+    describe('.isEqual(subject, comparison', function() {
+        it('returns true when subject and comparison are the same day', function() {
+            var subject = { year: 2015, month: 5, day: 5 };
+            var comparison = { year: 2015, month: 5, day: 5 };
+
+            assert(k.day.isEqual(subject, comparison));
+        });
+        it('returns false when subject and comparison are not the same day', function() {
+            var subject = { year: 2015, month: 5, day: 5 },
+                comparison1 = { year: 2014, month: 5, day: 5 },
+                comparison2 = { year: 2015, month: 4, day: 5 },
+                comparison3 = { year: 2015, month: 5, day: 4 };
+
+            assert(!k.day.isEqual(subject, comparison1));
+            assert(!k.day.isEqual(subject, comparison2));
+            assert(!k.day.isEqual(subject, comparison3));
+        });
+    });
 });

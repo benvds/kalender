@@ -111,6 +111,17 @@ Returns if subject day is after comparison day.
     >     { year: 2015, month: 3, day: 3});
     true
 
+`day.isEqual(subjectDay, comparisonDay);`
+
+Returns if subject day is the same as the comparison day.
+
+    > day.isEqual({ year: 2015, month: 4, day: 4},
+    >     { year: 2015, month: 4, day: 4});
+    true
+    > day.isEqual({ year: 2015, month: 4, day: 4},
+    >     { year: 2015, month: 4, day: 3});
+    false
+
 
 ### util
 
@@ -170,7 +181,6 @@ frustrated with all of them. This is a just for fun project to do things my way.
 
 ## TODO
 
-- compare day (equals)
 - default to today
 - flag today
 - select day (take object, strings, Date)
