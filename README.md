@@ -178,9 +178,3 @@ frustrated with all of them. This is a just for fun project to do things my way.
 
 - https://github.com/WesleydeSouza/calendar-base
 - https://github.com/kylestetz/CLNDR
-
-
-## TODO
-
-- flag today
-- select day (take object, strings, Date)
