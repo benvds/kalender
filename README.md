@@ -23,7 +23,7 @@ time. This library is only interested in days, months and years.
 
 Returns collection of day objects for the given month. Includes days from
 sibling months to make for full weeks. Sibling months are marked with
-`isSiblingMonth: true`.
+`isSiblingMonth: true`. Defaults to the current month.
 Option `weekStart` sets the first day of the week.
 
     > kalender.calendar({ year: 2011, month: 12 });
