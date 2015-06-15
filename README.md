@@ -51,11 +51,12 @@ Returns true when given year is a leap year.
 
 `month.days({ year: year, month: month })`
 
-Returns collection of day objects for given month.
+Returns collection of day objects for given month. Today is flagged using
+`isToday: true`.
 
     > month.days({ year: 2014, month: 12 });
     [ { year: 2014, month: 12, day: 1, weekDay: 2 },
-      { year: 2014, month: 12, day: 2, weekDay: 3 },
+      { year: 2014, month: 12, day: 2, weekDay: 3, isToday: true },
       { year: 2014, month: 12, day: 3, weekDay: 4 },
     ...
 

@@ -89,5 +89,19 @@ describe('month', function(){
             assert.equal(6, days[3].dayOfWeek);
             assert.equal(0, days[4].dayOfWeek);
         });
+
+        it('flags today', function() {
+            var curDate = new Date();
+            var curMonth = {
+                year: curDate.getFullYear(),
+                month: (curDate.getMonth() + 1)
+            };
+            // var curDay = curDate.getDate();
+            var days = k.month.days(curMonth);
+            var otherDayIndex = curDate.getDate() === 1 ?  1 : 0;
+
+            assert(days[curDate.getDate() - 1].isToday);
+            assert.equal(typeof days[otherDayIndex].isToday, 'undefined');
+        });
     });
 });
