@@ -3,6 +3,19 @@ var k = require('../index'),
     assert = require('assert');
 
 describe('calendar(month)', function(){
+    it('defaults to the current month', function() {
+        var curDate = new Date();
+        var currentMonth = {
+            year: curDate.getFullYear(),
+            month: (curDate.getMonth() + 1),
+            day: curDate.getDate()
+        };
+        var calendar = k.calendar();
+
+        assert.equal(currentMonth.year, calendar[1][0].year);
+        assert.equal(currentMonth.month, calendar[1][0].month);
+    });
+
     describe('sibling months', function() {
         it('discards previous month when current month starts on weekStart',
            function()

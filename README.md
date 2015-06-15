@@ -181,6 +181,5 @@ frustrated with all of them. This is a just for fun project to do things my way.
 
 ## TODO
 
-- default to today
 - flag today
 - select day (take object, strings, Date)
