@@ -17,7 +17,7 @@ var DAYS_PER_WEEK = 7;
 
 /**
  * Returns collection of day objects for the given month. Includes days from
- * sibling months to make for full weeks.
+ * sibling months to make for full weeks. Defaults to the current month.
  *
  * @argument {Object} month
  * @argument {Number} month.year
@@ -27,7 +27,8 @@ var DAYS_PER_WEEK = 7;
  *
  * @returns {Object[]} days
  */
-function calendar(currentMonth, options) {
+function calendar(_currentMonth, options) {
+    var currentMonth = _currentMonth || getCurrentMonth();
     var days = []
         .concat(daysMissingBefore(currentMonth, weekStart(options)))
         .concat(month.days(currentMonth))
@@ -162,6 +163,20 @@ function markAsSiblingMonth(days) {
 
         return day;
     });
+}
+
+/**
+ * Returns the current month
+ *
+ * @returns {Object} month
+ */
+function getCurrentMonth() {
+    var currentDate = new Date();
+
+    return {
+        year: currentDate.getFullYear(),
+        month: (currentDate.getMonth() + 1)
+    };
 }
 
 module.exports = calendar;
@@ -369,7 +384,27 @@ function days(month) {
         });
     }
 
-    return result;
+    return flagToday(result);
+}
+
+function flagToday(days) {
+    var curDate = new Date();
+    var dayOfMonth = curDate.getDate();
+
+    if (days[0].year === curDate.getFullYear() &&
+        days[0].month === (curDate.getMonth() + 1))
+    {
+        return days.map(function(day) {
+            if (day.day === dayOfMonth) {
+                day.isToday = true;
+            }
+
+            return day;
+        });
+    } else {
+        return days;
+    }
+
 }
 
 module.exports = {
