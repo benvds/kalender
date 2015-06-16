@@ -1,7 +1,7 @@
 {
   "name": "kalender",
   "version": "0.1.0",
-  "description": "Basic library of helper functions for rendering calendars.",
+  "description": "Basic component for rendering calendars.",
   "main": "./index.js",
   "dependencies": {},
   "devDependencies": {

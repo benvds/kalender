@@ -1,17 +1,22 @@
-# Kalender.js
+# Kalender
 
-Basic library of helper functions for rendering calendars.
+Basic component for rendering calendars.
 
-**IMPORTANT**: This is a heavily opinionated library and deviates from
-Javascript's default Date interface. The API relies on objects with year, month
+**IMPORTANT**: This is a heavily opinionated component and deviates from
+Javascript's default Date interface. *This component uses a 1-based index for month and weekday numbers.* Javascript's
+Date interface inconsistently uses a 0-based index for months and week days,
+but not for days or years.
+
+The API relies on objects with year, month
 and day attributes, e.g.
 `{ year: 2015, month: 12 }` and `{ year: 2014, month: 1, day: 31 }`.
-This library uses a 1-based index for month and weekday numbers. Javascript's
-Date interface inconsistently uses a 0-based index for months and week days,
-but not for month, days or years.
 
-Using Date for a calendar object is not necessary, it represents a moment in
-time. This library is only interested in days, months and years.
+Using Date for a calendar object is not necessary, which represents a moment in
+time. This component is only interested in days, months and years.
+
+## Examples
+
+- [Various datepicker examples](https://github.com/benvds/kalender-datepicker-examples)
 
 
 ## Usage
@@ -158,21 +163,15 @@ on every day.
 ## Reasoning
 
 I've been using various calender and datepicker widgets. Eventually I got
-frustrated with all of them. This is a just for fun project to do things my way.
+frustrated with all of them. This is a just for fun project to do things my way:
 
-1. for modular use; calendar logic should not contain render logic
+1. modular e.g. calendar logic should not contain render logic
 2. readable, understandable and maintainable
 3. little to no dependencies, just for linting, testing and building
 4. well tested
-- commonjs modules
-- no deeply nested if statements or block scopes
-- functional(ish) code
-- optimize for readibility not performance (not necessary)
-- bare minimum api, not much to learn, easy to understand and maintain:
-  just fork and adjust the code or map it's output
-- sane defaults (objects, strings, date, momentjs)
-- NO CALLBACK METHOD (give example with mapMatrix)
-
+5. functional(ish) style e.g. no deeply nested if statements or block scopes
+6. prefer readibility over performance
+7. minimal API
 
 ## Inspiration
 
