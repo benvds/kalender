@@ -15,6 +15,11 @@ Using Date for a calendar object is not necessary, which represents a moment in
 time and includes a timezone. This component is only interested in days, months
 and years. It assumes timezones and localization are handled elsewhere.
 
+More information:
+
+- [Creating a Javascript component – reasons & requirements](https://gist.github.com/benvds/cb1099296a23df9759da)
+- [Kalender – Technical considerations](https://gist.github.com/benvds/529acf573b1d66bde9c9)
+
 ## Implementation examples
 
 - [Various datepicker examples](https://github.com/benvds/kalender-datepicker-examples)
