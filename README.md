@@ -3,18 +3,19 @@
 Basic component for rendering calendars.
 
 **IMPORTANT**: This is a heavily opinionated component and deviates from
-Javascript's default Date interface. *This component uses a 1-based index for month and weekday numbers.* Javascript's
-Date interface inconsistently uses a 0-based index for months and week days,
-but not for days or years.
+Javascript's default Date interface. *This component uses a 1-based index for
+months.* Javascript's Date interface inconsistently uses a 0-based index for
+months and week days, but not for days or years.
 
 The API relies on objects with year, month
 and day attributes, e.g.
 `{ year: 2015, month: 12 }` and `{ year: 2014, month: 1, day: 31 }`.
 
 Using Date for a calendar object is not necessary, which represents a moment in
-time. This component is only interested in days, months and years.
+time and includes a timezone. This component is only interested in days, months
+and years. It assumes timezones and localization are handled elsewhere.
 
-## Examples
+## Implementation examples
 
 - [Various datepicker examples](https://github.com/benvds/kalender-datepicker-examples)
 
