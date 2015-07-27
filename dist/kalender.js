@@ -1,17 +1,53 @@
 (function(f){if(typeof exports==="object"&&typeof module!=="undefined"){module.exports=f()}else if(typeof define==="function"&&define.amd){define([],f)}else{var g;if(typeof window!=="undefined"){g=window}else if(typeof global!=="undefined"){g=global}else if(typeof self!=="undefined"){g=self}else{g=this}g.kalender = f()}})(function(){var define,module,exports;return (function e(t,n,r){function s(o,u){if(!n[o]){if(!t[o]){var a=typeof require=="function"&&require;if(!u&&a)return a(o,!0);if(i)return i(o,!0);var f=new Error("Cannot find module '"+o+"'");throw f.code="MODULE_NOT_FOUND",f}var l=n[o]={exports:{}};t[o][0].call(l.exports,function(e){var n=t[o][1][e];return s(n?n:e)},l,l.exports,e,t,n,r)}return n[o].exports}var i=typeof require=="function"&&require;for(var o=0;o<r.length;o++)s(r[o]);return s})({1:[function(require,module,exports){
-module.exports = {
-    year: require('./lib/year'),
-    month: require('./lib/month'),
-    day: require('./lib/day'),
-    calendar: require('./lib/calendar'),
-    util: require('./lib/util')
-};
+'use strict';
+
+Object.defineProperty(exports, '__esModule', {
+    value: true
+});
+
+function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj['default'] = obj; return newObj; } }
+
+var _libYear = require('./lib/year');
+
+var year = _interopRequireWildcard(_libYear);
+
+var _libMonth = require('./lib/month');
+
+var month = _interopRequireWildcard(_libMonth);
+
+var _libDay = require('./lib/day');
+
+var day = _interopRequireWildcard(_libDay);
+
+var _libUtil = require('./lib/util');
+
+var util = _interopRequireWildcard(_libUtil);
+
+var _libCalendar = require('./lib/calendar');
+
+exports.year = year;
+exports.month = month;
+exports.day = day;
+exports.calendar = _libCalendar.calendar;
+exports.util = util;
 
 },{"./lib/calendar":2,"./lib/day":3,"./lib/month":4,"./lib/util":5,"./lib/year":6}],2:[function(require,module,exports){
 'use strict';
 
-var month = require('./month');
-var day = require('./day');
+Object.defineProperty(exports, '__esModule', {
+    value: true
+});
+exports.calendar = calendar;
+
+function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj['default'] = obj; return newObj; } }
+
+var _day = require('./day');
+
+var day = _interopRequireWildcard(_day);
+
+var _month = require('./month');
+
+var month = _interopRequireWildcard(_month);
 
 var DAYS_PER_WEEK = 7;
 
@@ -27,12 +63,10 @@ var DAYS_PER_WEEK = 7;
  *
  * @returns {Object[]} days
  */
+
 function calendar(_currentMonth, options) {
     var currentMonth = _currentMonth || getCurrentMonth();
-    var days = []
-        .concat(daysMissingBefore(currentMonth, weekStart(options)))
-        .concat(month.days(currentMonth))
-        .concat(daysMissingAfter(currentMonth, weekStart(options)));
+    var days = [].concat(daysMissingBefore(currentMonth, weekStart(options))).concat(month.days(currentMonth)).concat(daysMissingAfter(currentMonth, weekStart(options)));
 
     return groupPerWeek(days);
 }
@@ -49,8 +83,7 @@ function groupPerWeek(days) {
     var weeks = [];
 
     for (var week = 0; week < amountOfWeeks; week++) {
-        weeks.push(days.slice(week * DAYS_PER_WEEK,
-                              (week + 1) * DAYS_PER_WEEK));
+        weeks.push(days.slice(week * DAYS_PER_WEEK, (week + 1) * DAYS_PER_WEEK));
     }
 
     return weeks;
@@ -87,8 +120,7 @@ function weekStart(options) {
  */
 function daysMissingBefore(currentMonth, weekStart) {
     if (amountMissingBefore(currentMonth, weekStart)) {
-        var days = month.days(month.previousMonth(currentMonth))
-            .slice(-1 * amountMissingBefore(currentMonth, weekStart));
+        var days = month.days(month.previousMonth(currentMonth)).slice(-1 * amountMissingBefore(currentMonth, weekStart));
 
         return markAsSiblingMonth(days);
     } else {
@@ -106,8 +138,7 @@ function daysMissingBefore(currentMonth, weekStart) {
  * @returns {Number} amount of days
  */
 function amountMissingBefore(currentMonth, weekStart) {
-    return (DAYS_PER_WEEK - weekStart +
-            month.days(currentMonth)[0].dayOfWeek) % DAYS_PER_WEEK;
+    return (DAYS_PER_WEEK - weekStart + month.days(currentMonth)[0].dayOfWeek) % DAYS_PER_WEEK;
 }
 
 /**
@@ -122,8 +153,7 @@ function amountMissingBefore(currentMonth, weekStart) {
  */
 function daysMissingAfter(currentMonth, weekStart) {
     if (amountMissingAfter(currentMonth, weekStart)) {
-        var days = month.days(month.nextMonth(currentMonth))
-            .slice(0, amountMissingAfter(currentMonth, weekStart));
+        var days = month.days(month.nextMonth(currentMonth)).slice(0, amountMissingAfter(currentMonth, weekStart));
 
         return markAsSiblingMonth(days);
     } else {
@@ -142,9 +172,9 @@ function daysMissingAfter(currentMonth, weekStart) {
  */
 function amountMissingAfter(currentMonth, weekStart) {
     var days = month.days(currentMonth);
-    var lastDayOfWeek = day.dayOfWeek(days[(days.length - 1)]);
+    var lastDayOfWeek = day.dayOfWeek(days[days.length - 1]);
 
-    return ((DAYS_PER_WEEK + weekStart) - lastDayOfWeek - 1) % DAYS_PER_WEEK;
+    return (DAYS_PER_WEEK + weekStart - lastDayOfWeek - 1) % DAYS_PER_WEEK;
 }
 
 /**
@@ -158,7 +188,7 @@ function amountMissingAfter(currentMonth, weekStart) {
  * @returns {Object[]} days with attribute isSiblingMonth: true
  */
 function markAsSiblingMonth(days) {
-    return days.map(function(day) {
+    return days.map(function (day) {
         day.isSiblingMonth = true;
 
         return day;
@@ -175,15 +205,16 @@ function getCurrentMonth() {
 
     return {
         year: currentDate.getFullYear(),
-        month: (currentDate.getMonth() + 1)
+        month: currentDate.getMonth() + 1
     };
 }
-
-module.exports = calendar;
 
 },{"./day":3,"./month":4}],3:[function(require,module,exports){
 'use strict';
 
+Object.defineProperty(exports, '__esModule', {
+    value: true
+});
 var DAY_WEIGHTS = {
     year: 385,
     month: 32,
@@ -244,9 +275,7 @@ function isAfter(subject, comparison) {
  * @returns {Number} dayWeight timestamp for start of day
  */
 function dayWeight(day) {
-    return (day.day * DAY_WEIGHTS.day) +
-        (day.month * DAY_WEIGHTS.month) +
-        (day.year * DAY_WEIGHTS.year);
+    return day.day * DAY_WEIGHTS.day + day.month * DAY_WEIGHTS.month + day.year * DAY_WEIGHTS.year;
 }
 
 /**
@@ -258,23 +287,32 @@ function dayWeight(day) {
  * @returns {Boolean} true when subject day is the same as the comparison day
  */
 function isEqual(subject, comparison) {
-    return (subject.day === comparison.day) &&
-        (subject.month === comparison.month) &&
-        (subject.year === comparison.year);
+    return subject.day === comparison.day && subject.month === comparison.month && subject.year === comparison.year;
 }
 
-module.exports = {
-    dayOfWeek: dayOfWeek,
-    isBefore: isBefore,
-    isAfter: isAfter,
-    isEqual: isEqual
-};
+exports.dayOfWeek = dayOfWeek;
+exports.isBefore = isBefore;
+exports.isAfter = isAfter;
+exports.isEqual = isEqual;
 
 },{}],4:[function(require,module,exports){
 'use strict';
 
-var year = require('./year');
-var day = require('./day');
+// var year = require('./year');
+// var day = require('./day');
+Object.defineProperty(exports, '__esModule', {
+    value: true
+});
+
+function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj['default'] = obj; return newObj; } }
+
+var _year = require('./year');
+
+var year = _interopRequireWildcard(_year);
+
+var _day = require('./day');
+
+var day = _interopRequireWildcard(_day);
 
 var MONTHS_PER_YEAR = 12;
 
@@ -306,8 +344,7 @@ function amountOfDays(month) {
 function hasLeapDay(month) {
     var MONTH_WITH_ADDITIONAL_DAY_ON_LEAP_YEAR = 2;
 
-    return (month.month === MONTH_WITH_ADDITIONAL_DAY_ON_LEAP_YEAR &&
-        year.isLeapYear(month.year));
+    return month.month === MONTH_WITH_ADDITIONAL_DAY_ON_LEAP_YEAR && year.isLeapYear(month.year);
 }
 
 /**
@@ -322,13 +359,13 @@ function hasLeapDay(month) {
 function previousMonth(month) {
     if (month.month === 1) {
         return {
-            year: (month.year - 1),
+            year: month.year - 1,
             month: MONTHS_PER_YEAR
         };
     } else {
         return {
             year: month.year,
-            month: (month.month - 1)
+            month: month.month - 1
         };
     }
 }
@@ -345,13 +382,13 @@ function previousMonth(month) {
 function nextMonth(month) {
     if (month.month === MONTHS_PER_YEAR) {
         return {
-            year: (month.year + 1),
+            year: month.year + 1,
             month: 1
         };
     } else {
         return {
             year: month.year,
-            month: (month.month + 1)
+            month: month.month + 1
         };
     }
 }
@@ -368,10 +405,7 @@ function nextMonth(month) {
 function days(month) {
     var result = [];
 
-    for (var currentDay = 1, amount = amountOfDays(month);
-         currentDay <= amount;
-         currentDay++)
-    {
+    for (var currentDay = 1, amount = amountOfDays(month); currentDay <= amount; currentDay++) {
         result.push({
             year: month.year,
             month: month.month,
@@ -391,10 +425,8 @@ function flagToday(days) {
     var curDate = new Date();
     var dayOfMonth = curDate.getDate();
 
-    if (days[0].year === curDate.getFullYear() &&
-        days[0].month === (curDate.getMonth() + 1))
-    {
-        return days.map(function(day) {
+    if (days[0].year === curDate.getFullYear() && days[0].month === curDate.getMonth() + 1) {
+        return days.map(function (day) {
             if (day.day === dayOfMonth) {
                 day.isToday = true;
             }
@@ -404,15 +436,12 @@ function flagToday(days) {
     } else {
         return days;
     }
-
 }
 
-module.exports = {
-    amountOfDays: amountOfDays,
-    previousMonth: previousMonth,
-    nextMonth: nextMonth,
-    days: days
-};
+exports.amountOfDays = amountOfDays;
+exports.previousMonth = previousMonth;
+exports.nextMonth = nextMonth;
+exports.days = days;
 
 },{"./day":3,"./year":6}],5:[function(require,module,exports){
 'use strict';
@@ -426,15 +455,16 @@ module.exports = {
  *
  * @returns {Object[][]} calendar with days mapped with callback
  */
+Object.defineProperty(exports, '__esModule', {
+  value: true
+});
 function mapDays(calendar, callback) {
-    return calendar.map(function(week) {
-        return week.map(callback);
-    });
+  return calendar.map(function (week) {
+    return week.map(callback);
+  });
 }
 
-module.exports = {
-    mapDays: mapDays
-};
+exports.mapDays = mapDays;
 
 },{}],6:[function(require,module,exports){
 'use strict';
@@ -446,13 +476,14 @@ module.exports = {
  *
  * @returns {Boolean}
  */
+Object.defineProperty(exports, '__esModule', {
+  value: true
+});
 function isLeapYear(year) {
-    return ((year % 4 === 0) && (year % 100 !== 0)) || (year % 400 === 0);
+  return year % 4 === 0 && year % 100 !== 0 || year % 400 === 0;
 }
 
-module.exports = {
-    isLeapYear: isLeapYear
-};
+exports.isLeapYear = isLeapYear;
 
 },{}]},{},[1])(1)
 });
