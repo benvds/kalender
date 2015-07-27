@@ -1,14 +1,15 @@
-var k = require('../index'),
-    assert = require('assert');
+var assert = require('assert');
+
+import * as day from '../lib/day';
 
 describe('day', function() {
     describe('.dayOfWeek(day)', function() {
         it('returns 0 for sundays', function() {
-            assert.equal(0, k.day.dayOfWeek({ year: 2015, month: 4, day: 19 }));
+            assert.equal(0, day.dayOfWeek({ year: 2015, month: 4, day: 19 }));
         });
 
         it('returns 6 for saturdays', function() {
-            assert.equal(6, k.day.dayOfWeek({ year: 2015, month: 4, day: 18 }));
+            assert.equal(6, day.dayOfWeek({ year: 2015, month: 4, day: 18 }));
         });
     });
 
@@ -18,17 +19,17 @@ describe('day', function() {
         it('returns true when subject is before comparison', function() {
             var comparison = { year: 2015, month: 5, day: 5 };
 
-            assert(k.day.isBefore(subject, comparison));
+            assert(day.isBefore(subject, comparison));
         });
         it('returns false when subject is on same day as comparison', function() {
             var comparison = { year: 2015, month: 5, day: 4 };
 
-            assert(!k.day.isBefore(subject, comparison));
+            assert(!day.isBefore(subject, comparison));
         });
         it('returns false when subject is after comparison', function() {
             var comparison = { year: 2015, month: 5, day: 3 };
 
-            assert(!k.day.isBefore(subject, comparison));
+            assert(!day.isBefore(subject, comparison));
         });
     });
 
@@ -38,17 +39,17 @@ describe('day', function() {
         it('returns true when subject is after comparison', function() {
             var comparison = { year: 2015, month: 5, day: 3 };
 
-            assert(k.day.isAfter(subject, comparison));
+            assert(day.isAfter(subject, comparison));
         });
         it('returns false when subject is on same day as comparison', function() {
             var comparison = { year: 2015, month: 5, day: 4 };
 
-            assert(!k.day.isAfter(subject, comparison));
+            assert(!day.isAfter(subject, comparison));
         });
         it('returns false when subject is before comparison', function() {
             var comparison = { year: 2015, month: 5, day: 5 };
 
-            assert(!k.day.isAfter(subject, comparison));
+            assert(!day.isAfter(subject, comparison));
         });
     });
 
@@ -57,7 +58,7 @@ describe('day', function() {
             var subject = { year: 2015, month: 5, day: 5 };
             var comparison = { year: 2015, month: 5, day: 5 };
 
-            assert(k.day.isEqual(subject, comparison));
+            assert(day.isEqual(subject, comparison));
         });
         it('returns false when subject and comparison are not the same day', function() {
             var subject = { year: 2015, month: 5, day: 5 },
@@ -65,9 +66,9 @@ describe('day', function() {
                 comparison2 = { year: 2015, month: 4, day: 5 },
                 comparison3 = { year: 2015, month: 5, day: 4 };
 
-            assert(!k.day.isEqual(subject, comparison1));
-            assert(!k.day.isEqual(subject, comparison2));
-            assert(!k.day.isEqual(subject, comparison3));
+            assert(!day.isEqual(subject, comparison1));
+            assert(!day.isEqual(subject, comparison2));
+            assert(!day.isEqual(subject, comparison3));
         });
     });
 });

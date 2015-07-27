@@ -1,6 +1,7 @@
-var k = require('../index'),
-    _ = require('lodash'),
-    assert = require('assert');
+var _ = require('lodash');
+var assert = require('assert');
+
+import * as k from '../index';
 
 describe('calendar(month)', function(){
     it('defaults to the current month', function() {

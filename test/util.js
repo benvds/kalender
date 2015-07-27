@@ -1,15 +1,19 @@
-var k = require('../index'),
-    assert = require('assert');
+var assert = require('assert');
+
+import * as util from '../lib/util';
 
 describe('util', function() {
     describe('.mapDays(calendar, callback)', function() {
         it('applies callback to all days', function() {
-            var cal = k.calendar({ year: 2015, month: 2 });
-            var result = k.util.mapDays(cal, function(day) {
-                return { year: (day.year + 1) };
-            });
+            var cal = [
+                [1, 2],
+                [3, 4]
+            ];
 
-            assert.equal(2016, result[0][0].year);
+            var result = util.mapDays(cal, (day) => day + 1);
+
+            assert.equal(2, result[0][0]);
+            assert.equal(5, result[1][1]);
         });
     });
 });
