@@ -41,6 +41,7 @@
     "preset": "airbnb",
     "validateIndentation": 4,
     "disallowNewlineBeforeBlockStatements": null,
-    "requireSpaceBeforeBlockStatements": null
+    "requireSpaceBeforeBlockStatements": null,
+    "esnext": true
   }
 }

@@ -73,10 +73,6 @@ describe('calendar(month)', function(){
                              _.pick(result[0][3], ['month', 'day']));
         });
 
-        // TODO BUG: not enough days are included, test with:
-        // { year 2015, month: 3 }, { weekStart: 1 }
-        // set ends on day before weekStart as last day of month or on day in
-        // the next month
         it('includes first days of next month ' +
             'when month ends before week end', function ()
         {

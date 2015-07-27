@@ -49,7 +49,7 @@ var _month = require('./month');
 
 var month = _interopRequireWildcard(_month);
 
-var DAYS_PER_WEEK = 7;
+var daysPerWeek = 7;
 
 /**
  * Returns collection of day objects for the given month. Includes days from
@@ -79,11 +79,11 @@ function calendar(_currentMonth, options) {
  * @returns {Object[][]} returns a matrix of weeks and days
  */
 function groupPerWeek(days) {
-    var amountOfWeeks = days.length / DAYS_PER_WEEK;
+    var amountOfWeeks = days.length / daysPerWeek;
     var weeks = [];
 
     for (var week = 0; week < amountOfWeeks; week++) {
-        weeks.push(days.slice(week * DAYS_PER_WEEK, (week + 1) * DAYS_PER_WEEK));
+        weeks.push(days.slice(week * daysPerWeek, (week + 1) * daysPerWeek));
     }
 
     return weeks;
@@ -99,12 +99,12 @@ function groupPerWeek(days) {
  * @returns {Number} week start
  */
 function weekStart(options) {
-    var WEEK_START_DEFAULT = 0;
+    var weekStartDefault = 0;
 
     if (options && options.weekStart) {
         return options.weekStart;
     } else {
-        return WEEK_START_DEFAULT;
+        return weekStartDefault;
     }
 }
 
@@ -138,7 +138,7 @@ function daysMissingBefore(currentMonth, weekStart) {
  * @returns {Number} amount of days
  */
 function amountMissingBefore(currentMonth, weekStart) {
-    return (DAYS_PER_WEEK - weekStart + month.days(currentMonth)[0].dayOfWeek) % DAYS_PER_WEEK;
+    return (daysPerWeek - weekStart + month.days(currentMonth)[0].dayOfWeek) % daysPerWeek;
 }
 
 /**
@@ -174,7 +174,7 @@ function amountMissingAfter(currentMonth, weekStart) {
     var days = month.days(currentMonth);
     var lastDayOfWeek = day.dayOfWeek(days[days.length - 1]);
 
-    return (DAYS_PER_WEEK + weekStart - lastDayOfWeek - 1) % DAYS_PER_WEEK;
+    return (daysPerWeek + weekStart - lastDayOfWeek - 1) % daysPerWeek;
 }
 
 /**
@@ -215,7 +215,7 @@ function getCurrentMonth() {
 Object.defineProperty(exports, '__esModule', {
     value: true
 });
-var DAY_WEIGHTS = {
+var dayWeights = {
     year: 385,
     month: 32,
     day: 1
@@ -275,7 +275,7 @@ function isAfter(subject, comparison) {
  * @returns {Number} dayWeight timestamp for start of day
  */
 function dayWeight(day) {
-    return day.day * DAY_WEIGHTS.day + day.month * DAY_WEIGHTS.month + day.year * DAY_WEIGHTS.year;
+    return day.day * dayWeights.day + day.month * dayWeights.month + day.year * dayWeights.year;
 }
 
 /**
@@ -298,8 +298,6 @@ exports.isEqual = isEqual;
 },{}],4:[function(require,module,exports){
 'use strict';
 
-// var year = require('./year');
-// var day = require('./day');
 Object.defineProperty(exports, '__esModule', {
     value: true
 });
@@ -314,7 +312,7 @@ var _day = require('./day');
 
 var day = _interopRequireWildcard(_day);
 
-var MONTHS_PER_YEAR = 12;
+var monthsPerYear = 12;
 
 /**
  * Returns amount of days for given month, includes leap days.
@@ -326,8 +324,8 @@ var MONTHS_PER_YEAR = 12;
  * @returns {Number} amount of days
  */
 function amountOfDays(month) {
-    var DAYS_PER_MONTH = [31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31];
-    var normalAmount = DAYS_PER_MONTH[month.month - 1];
+    var daysPerMonth = [31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31];
+    var normalAmount = daysPerMonth[month.month - 1];
 
     return hasLeapDay(month) ? normalAmount + 1 : normalAmount;
 }
@@ -342,9 +340,9 @@ function amountOfDays(month) {
  * @returns {Boolean}
  */
 function hasLeapDay(month) {
-    var MONTH_WITH_ADDITIONAL_DAY_ON_LEAP_YEAR = 2;
+    var monthWithAdditionalDayOnLeapYear = 2;
 
-    return month.month === MONTH_WITH_ADDITIONAL_DAY_ON_LEAP_YEAR && year.isLeapYear(month.year);
+    return month.month === monthWithAdditionalDayOnLeapYear && year.isLeapYear(month.year);
 }
 
 /**
@@ -360,7 +358,7 @@ function previousMonth(month) {
     if (month.month === 1) {
         return {
             year: month.year - 1,
-            month: MONTHS_PER_YEAR
+            month: monthsPerYear
         };
     } else {
         return {
@@ -380,7 +378,7 @@ function previousMonth(month) {
  * @returns {Object} new month object
  */
 function nextMonth(month) {
-    if (month.month === MONTHS_PER_YEAR) {
+    if (month.month === monthsPerYear) {
         return {
             year: month.year + 1,
             month: 1
