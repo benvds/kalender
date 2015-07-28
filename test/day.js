@@ -1,5 +1,4 @@
-var assert = require('assert');
-
+import assert from 'assert';
 import * as day from '../lib/day';
 
 describe('day', function() {

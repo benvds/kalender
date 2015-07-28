@@ -1,10 +1,9 @@
-var _ = require('lodash');
-var assert = require('assert');
-
+import assert from 'assert';
+import _ from 'lodash';
 import * as k from '../index';
 
-describe('calendar(month)', function(){
-    it('defaults to the current month', function() {
+describe('calendar(month)', () => {
+    it('defaults to the current month', () => {
         var curDate = new Date();
         var currentMonth = {
             year: curDate.getFullYear(),
@@ -17,7 +16,7 @@ describe('calendar(month)', function(){
         assert.equal(currentMonth.month, calendar[1][0].month);
     });
 
-    describe('sibling months', function() {
+    describe('sibling months', () => {
         it('discards previous month when current month starts on weekStart',
            function()
         {
@@ -129,8 +128,8 @@ describe('calendar(month)', function(){
         });
     });
 });
-describe('calendar(month, options)', function(){
-    describe('option weekStart', function() {
+describe('calendar(month, options)', () => {
+    describe('option weekStart', () => {
         it('defaults to 0', function () {
             var result = k.calendar({ year: 2015, month: 3 });
 

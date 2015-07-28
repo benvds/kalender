@@ -1,5 +1,4 @@
-var assert = require('assert');
-
+import assert from 'assert';
 import * as util from '../lib/util';
 
 describe('util', function() {

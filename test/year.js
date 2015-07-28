@@ -1,5 +1,4 @@
-var assert = require('assert');
-
+import assert from 'assert';
 import * as year from '../lib/year';
 
 var LEAP_YEARS = [1996, 2000, 2004],
