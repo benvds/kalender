@@ -1,12 +1,12 @@
 import assert from 'assert';
 import * as month from '../lib/month';
 
-var LEAP_YEARS = [1996, 2000, 2004],
+let LEAP_YEARS = [1996, 2000, 2004],
     NON_LEAP_YEARS = [1997, 1998, 1999, 2100];
 
 describe('month', function(){
     describe('.amountOfDays(month) returns the correct number of days', function() {
-        var MONTHS_WITH_31_DAYS = [1, 3, 5, 7, 8, 10, 12],
+        let MONTHS_WITH_31_DAYS = [1, 3, 5, 7, 8, 10, 12],
             MONTHS_WITH_30_DAYS = [4, 6, 9, 11],
             MONTHS_WITH_29_OR_28_DAYS = [2],
             year = 2015;
@@ -42,7 +42,7 @@ describe('month', function(){
 
     describe('.previousMonth(month)', function() {
         it('returns the month before in the same year when not january', function() {
-            for (var curMonth = 2; curMonth <= 12; curMonth ++) {
+            for (let curMonth = 2; curMonth <= 12; curMonth ++) {
                 assert.deepEqual({ year: 2015, month: curMonth - 1 },
                                  month.previousMonth({ year: 2015, month: curMonth }));
             }
@@ -56,7 +56,7 @@ describe('month', function(){
 
     describe('.nextMonth(month)', function() {
         it('returns the month after in the same year when not december', function() {
-            for (var curMonth = 1; curMonth < 12; curMonth ++) {
+            for (let curMonth = 1; curMonth < 12; curMonth ++) {
                 assert.deepEqual({ year: 2015, month: curMonth + 1 },
                                  month.nextMonth({ year: 2015, month: curMonth }));
             }
@@ -70,9 +70,9 @@ describe('month', function(){
 
     describe('.days(month) ', function() {
         it('returns all days for a month', function() {
-            var days = month.days({ year: 2000, month: 2 });
+            let days = month.days({ year: 2000, month: 2 });
 
-            for (var i = 1; i < 30; i++) {
+            for (let i = 1; i < 30; i++) {
                 assert.equal(2, days[i - 1].month);
                 assert.equal(i, days[i - 1].day);
             }
@@ -81,7 +81,7 @@ describe('month', function(){
         });
 
         it('returns dayOfWeeks for each day', function() {
-            var days = month.days({ year: 2015, month: 4 });
+            let days = month.days({ year: 2015, month: 4 });
 
             assert.equal(3, days[0].dayOfWeek);
             assert.equal(4, days[1].dayOfWeek);
@@ -91,14 +91,14 @@ describe('month', function(){
         });
 
         it('flags today', function() {
-            var curDate = new Date();
-            var curMonth = {
+            let curDate = new Date();
+            let curMonth = {
                 year: curDate.getFullYear(),
                 month: (curDate.getMonth() + 1)
             };
-            // var curDay = curDate.getDate();
-            var days = month.days(curMonth);
-            var otherDayIndex = curDate.getDate() === 1 ?  1 : 0;
+            // let curDay = curDate.getDate();
+            let days = month.days(curMonth);
+            let otherDayIndex = curDate.getDate() === 1 ?  1 : 0;
 
             assert(days[curDate.getDate() - 1].isToday);
             assert.equal(typeof days[otherDayIndex].isToday, 'undefined');

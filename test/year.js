@@ -1,7 +1,7 @@
 import assert from 'assert';
 import * as year from '../lib/year';
 
-var LEAP_YEARS = [1996, 2000, 2004],
+let LEAP_YEARS = [1996, 2000, 2004],
     NON_LEAP_YEARS = [1997, 1998, 1999, 2100];
 
 
