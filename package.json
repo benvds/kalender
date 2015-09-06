@@ -16,6 +16,7 @@
   },
   "scripts": {
     "test": "mocha --harmony --compilers js:babel/register",
+    "test-watch": "mocha --watch --harmony --compilers js:babel/register",
     "lint:hint": "jshint index.js lib",
     "lint:styleguide": "jscs index.js lib",
     "lint": "npm run lint:hint && npm run lint:styleguide",
