@@ -1,24 +1,26 @@
 import assert from 'assert';
 import _ from 'lodash';
-import * as k from '../index';
+import { Calendar } from '../index';
 
 const monthWithLastDayOnTuesday = {
     year: 2015,
     month: 3
 };
 
-describe('calendar(month)', () => {
-    it('defaults to the current month', () => {
-        let curDate = new Date();
-        let currentMonth = {
-            year: curDate.getFullYear(),
-            month: (curDate.getMonth() + 1),
-            day: curDate.getDate()
-        };
-        let calendar = k.calendar();
+describe('Calendar', () => {
+    describe('constructor', () => {
+        it('defaults to the current month', () => {
+            let curDate = new Date();
+            let currentMonth = {
+                year: curDate.getFullYear(),
+                month: (curDate.getMonth() + 1),
+                day: curDate.getDate()
+            };
+            let calendar = new Calendar();
 
-        assert.equal(currentMonth.year, calendar[1][0].year);
-        assert.equal(currentMonth.month, calendar[1][0].month);
+            assert.equal(currentMonth.year, calendar.days()[1][0].year);
+            assert.equal(currentMonth.month, calendar.days()[1][0].month);
+        });
     });
 
     describe('sibling months', () => {
@@ -35,7 +37,7 @@ describe('calendar(month)', () => {
                     month: 3,
                     day: 1
                 },
-                _.pick(k.calendar(monthWithFirstDayOnWeekStart)[0][0],
+                _.pick(new Calendar(monthWithFirstDayOnWeekStart).days()[0][0],
                        ['year', 'month', 'day']));
         });
 
@@ -47,7 +49,7 @@ describe('calendar(month)', () => {
                     year: 2015,
                     month: 2
                 };
-            let result = k.calendar(monthWithLastDayOnWeeksEnd);
+            let result = new Calendar(monthWithLastDayOnWeeksEnd).days();
             assert.deepEqual(
                 {
                     year: 2015,
@@ -65,7 +67,7 @@ describe('calendar(month)', () => {
                     year: 2015,
                     month: 4
                 };
-            let result = k.calendar(monthWithFirstDayOnWednesday);
+            let result = new Calendar(monthWithFirstDayOnWednesday).days();
 
             assert.deepEqual({ month: 3, day: 29 },
                              _.pick(result[0][0], ['month', 'day']));
@@ -80,7 +82,7 @@ describe('calendar(month)', () => {
         it('includes first days of next month ' +
             'when month ends before week end', function ()
         {
-            let result = k.calendar(monthWithLastDayOnTuesday);
+            let result = new Calendar(monthWithLastDayOnTuesday).days();
 
             assert.deepEqual({ month: 3, day: 31 },
                              _.pick(result[4][2], ['month', 'day']));
@@ -89,7 +91,7 @@ describe('calendar(month)', () => {
         });
 
         it('ends on day before next weekstart of the next month', function () {
-            let result = k.calendar(monthWithLastDayOnTuesday);
+            let result = new Calendar(monthWithLastDayOnTuesday).days();
 
             assert.deepEqual({ month: 4, day: 4 }, _.pick(result[4][6],
                                                           ['month', 'day']));
@@ -100,7 +102,7 @@ describe('calendar(month)', () => {
                 year: 2015,
                 month: 4
             };
-            let result = k.calendar(monthWithFirstDayOnFriday);
+            let result = new Calendar(monthWithFirstDayOnFriday).days();
 
             assert(result[0][0].isSiblingMonth);
             assert(result[0][1].isSiblingMonth);
@@ -111,7 +113,7 @@ describe('calendar(month)', () => {
         });
 
         it('next months are marked as sibling month', function () {
-            let result = k.calendar(monthWithLastDayOnTuesday);
+            let result = new Calendar(monthWithLastDayOnTuesday).days();
 
             // make sure current month is not flagged
             assert(!result[4][2].isSiblingMonth);
@@ -124,13 +126,13 @@ describe('calendar(month)', () => {
 describe('calendar(month, options)', () => {
     describe('option weekStart', () => {
         it('defaults to 0', function () {
-            let result = k.calendar({ year: 2015, month: 3 });
+            let result = (new Calendar({ year: 2015, month: 3 }));
 
-            assert.equal(0, result[0][0].dayOfWeek);
+            assert.equal(0, result.days()[0][0].dayOfWeek);
         });
 
         it('can be set', function () {
-            let result = k.calendar({ year: 2015, month: 3 }, { weekStart: 2 });
+            let result = new Calendar({ year: 2015, month: 3 }, { weekStart: 2 }).days();
 
             assert.equal(2, result[0][0].dayOfWeek);
             assert.equal(2, result[0][0].month);
@@ -138,8 +140,8 @@ describe('calendar(month, options)', () => {
         });
 
         it('affects appending sibling month', function () {
-            let result = k.calendar(monthWithLastDayOnTuesday, { weekStart: 4 });
-            let result2 = k.calendar(monthWithLastDayOnTuesday, { weekStart: 1 });
+            let result = new Calendar(monthWithLastDayOnTuesday, { weekStart: 4 }).days();
+            let result2 = new Calendar(monthWithLastDayOnTuesday, { weekStart: 1 }).days();
 
             assert.deepEqual({ month: 4, day: 1 }, _.pick(result[4][6],
                                                           ['month', 'day']));
