@@ -1,17 +1,46 @@
 import assert from 'assert';
 import Day from '../lib/day';
 
-describe('day', function() {
-    describe('.dayOfWeek(day)', function() {
-        it('returns 0 for sundays', function() {
+describe('Day', () => {
+    describe('constructor', () => {
+        it('sets the year, month and day', () => {
+            let args = {
+                year: 2015,
+                month: 1,
+                day: 2
+            };
+            let day = new Day(args);
+
+            assert.equal(day.year, args.year);
+            assert.equal(day.month, args.month);
+            assert.equal(day.day, args.day);
+        });
+    });
+
+    describe('.date()', () => {
+        let args = {
+            year: 2015,
+            month: 1,
+            day: 2
+        };
+
+        it('returns a new native Date object for day', () => {
             assert
-                .equal(new Day({ year: 2015, month: 4, day: 19 }).dayOfWeek(),
+                .equal(new Day(args).date().toString(),
+                    new Date(2015, 0, 2).toString());
+        });
+    });
+
+    describe('.getDayOfWeek()', () => {
+        it('returns 0 for sundays', () => {
+            assert
+                .equal(new Day({ year: 2015, month: 4, day: 19 }).getDayOfWeek(),
                     0);
         });
 
-        it('returns 6 for saturdays', function() {
+        it('returns 6 for saturdays', () => {
             assert
-                .equal(new Day({ year: 2015, month: 4, day: 18 }).dayOfWeek(),
+                .equal(new Day({ year: 2015, month: 4, day: 18 }).getDayOfWeek(),
                     6);
         });
     });

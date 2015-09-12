@@ -104,7 +104,8 @@ describe('Month', function(){
             assert.equal(0, days[4].dayOfWeek);
         });
 
-        it('flags today', function() {
+        // TODO move to Calendar
+        xit('flags today', function() {
             let curDate = new Date();
             let curMonth = {
                 year: curDate.getFullYear(),
