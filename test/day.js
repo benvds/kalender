@@ -65,23 +65,23 @@ describe('Day', () => {
         });
     });
 
-    xdescribe('.isAfter(subject, comparison)', function() {
-        let subject = { year: 2015, month: 5, day: 4 };
+    describe('.isAfter(subject, comparison)', function() {
+        let subject = new Day({ year: 2015, month: 5, day: 4 });
 
         it('returns true when subject is after comparison', function() {
-            let comparison = { year: 2015, month: 5, day: 3 };
+            let comparison = new Day({ year: 2015, month: 5, day: 3 });
 
-            assert(day.isAfter(subject, comparison));
+            assert(subject.isAfter(comparison));
         });
         it('returns false when subject is on same day as comparison', function() {
-            let comparison = { year: 2015, month: 5, day: 4 };
+            let comparison = new Day({ year: 2015, month: 5, day: 4 });
 
-            assert(!day.isAfter(subject, comparison));
+            assert(!subject.isAfter(comparison));
         });
         it('returns false when subject is before comparison', function() {
-            let comparison = { year: 2015, month: 5, day: 5 };
+            let comparison = new Day({ year: 2015, month: 5, day: 5 });
 
-            assert(!day.isAfter(subject, comparison));
+            assert(!subject.isAfter(comparison));
         });
     });
 
