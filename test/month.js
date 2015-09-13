@@ -103,20 +103,5 @@ describe('Month', function(){
             assert.equal(6, days[3].dayOfWeek);
             assert.equal(0, days[4].dayOfWeek);
         });
-
-        // TODO move to Calendar
-        xit('flags today', function() {
-            let curDate = new Date();
-            let curMonth = {
-                year: curDate.getFullYear(),
-                month: (curDate.getMonth() + 1)
-            };
-            // let curDay = curDate.getDate();
-            let days = new Month(curMonth).days();
-            let otherDayIndex = curDate.getDate() === 1 ?  1 : 0;
-
-            assert(days[curDate.getDate() - 1].isToday);
-            assert.equal(typeof days[otherDayIndex].isToday, 'undefined');
-        });
     });
 });

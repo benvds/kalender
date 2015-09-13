@@ -122,6 +122,21 @@ describe('Calendar', () => {
             assert(result[4][4].isSiblingMonth);
         });
     });
+
+    it('flags today', function() {
+        let curDate = new Date();
+        let curMonth = {
+            year: curDate.getFullYear(),
+            month: (curDate.getMonth() + 1)
+        };
+        // let curDay = curDate.getDate();
+        let days = _.flatten((new Calendar(curMonth)).days());
+        let otherDayIndex = curDate.getDate() === 1 ?  1 : 0;
+
+        let today = _.any(days, { isToday: true });
+        assert(today);
+        assert.equal(typeof days[otherDayIndex].isToday, 'undefined');
+    });
 });
 describe('calendar(month, options)', () => {
     describe('option weekStart', () => {
