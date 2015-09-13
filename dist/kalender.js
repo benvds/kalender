@@ -63,21 +63,20 @@ var _month = require('./month');
 var _month2 = _interopRequireDefault(_month);
 
 var Calendar = (function () {
-    function Calendar(_currentMonth, options) {
+    function Calendar(month, options) {
         _classCallCheck(this, Calendar);
 
-        var currentMonth = _currentMonth || this.getCurrentMonth();
-        var currentDays = new _month2['default'](currentMonth).days();
-
-        // TODO move this to days methods, build proper constructor
-        this._days = [].concat(this.daysMissingBefore(currentMonth, this.weekStart(options))).concat(currentDays).concat(this.daysMissingAfter(currentMonth, this.weekStart(options), currentDays));
+        this.weekStart = this.getWeekStart(options);
+        this.month = new _month2['default'](month || this.defaultMonth());
     }
 
     _createClass(Calendar, [{
         key: 'days',
         value: function days() {
-            var days = this.markToday(this._days);
-            return this.groupPerWeek(days);
+            var currentDays = this.month.days();
+            var days = [].concat(this.daysMissingBefore()).concat(currentDays).concat(this.daysMissingAfter(currentDays));
+
+            return this.groupPerWeek(this.markToday(days));
         }
 
         /**
@@ -88,13 +87,13 @@ var Calendar = (function () {
          * @returns {Object} month.month
          */
     }, {
-        key: 'getCurrentMonth',
-        value: function getCurrentMonth() {
-            var currentDate = new Date();
+        key: 'defaultMonth',
+        value: function defaultMonth() {
+            var today = new Date();
 
             return {
-                year: currentDate.getFullYear(),
-                month: currentDate.getMonth() + 1
+                year: today.getFullYear(),
+                month: today.getMonth() + 1
             };
         }
 
@@ -108,14 +107,14 @@ var Calendar = (function () {
          * @returns {Number} week start
          */
     }, {
-        key: 'weekStart',
-        value: function weekStart(options) {
-            var weekStartDefault = 0;
+        key: 'getWeekStart',
+        value: function getWeekStart(options) {
+            var WEEK_START_DEFAULT = 0;
 
             if (options && options.weekStart) {
                 return options.weekStart;
             } else {
-                return weekStartDefault;
+                return WEEK_START_DEFAULT;
             }
         }
 
@@ -127,11 +126,11 @@ var Calendar = (function () {
          */
     }, {
         key: 'daysMissingBefore',
-        value: function daysMissingBefore(currentMonth, weekStart) {
-            var amount = this.amountMissingBefore(currentMonth, weekStart);
+        value: function daysMissingBefore() {
+            var amount = this.amountMissingBefore();
 
             if (amount) {
-                var days = new _month2['default'](currentMonth).previous().days().slice(-1 * amount);
+                var days = this.month.previous().days().slice(-1 * amount);
 
                 return this.markSiblingMonths(days);
             } else {
@@ -150,8 +149,8 @@ var Calendar = (function () {
          */
     }, {
         key: 'amountMissingBefore',
-        value: function amountMissingBefore(currentMonth, weekStart) {
-            return (_consts.DAYS_PER_WEEK - weekStart + new Date(currentMonth.year, currentMonth.month - 1, 0).getDate()) % _consts.DAYS_PER_WEEK;
+        value: function amountMissingBefore() {
+            return (_consts.DAYS_PER_WEEK - this.weekStart + new Date(this.month.year, this.month.month - 1, 1).getDay()) % _consts.DAYS_PER_WEEK;
         }
 
         /**
@@ -186,9 +185,9 @@ var Calendar = (function () {
          */
     }, {
         key: 'daysMissingAfter',
-        value: function daysMissingAfter(currentMonth, weekStart, currentDays) {
-            if (this.amountMissingAfter(weekStart, currentDays)) {
-                var days = new _month2['default'](currentMonth).next().days().slice(0, this.amountMissingAfter(weekStart, currentDays));
+        value: function daysMissingAfter(currentDays) {
+            if (this.amountMissingAfter(currentDays)) {
+                var days = this.month.next().days().slice(0, this.amountMissingAfter(currentDays));
 
                 return this.markSiblingMonths(days);
             } else {
@@ -207,10 +206,10 @@ var Calendar = (function () {
          */
     }, {
         key: 'amountMissingAfter',
-        value: function amountMissingAfter(weekStart, currentDays) {
+        value: function amountMissingAfter(currentDays) {
             var lastDayOfWeek = currentDays[currentDays.length - 1].dayOfWeek;
 
-            return (_consts.DAYS_PER_WEEK + weekStart - lastDayOfWeek - 1) % _consts.DAYS_PER_WEEK;
+            return (_consts.DAYS_PER_WEEK + this.weekStart - lastDayOfWeek - 1) % _consts.DAYS_PER_WEEK;
         }
     }, {
         key: 'markToday',
