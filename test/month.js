@@ -5,12 +5,18 @@ let LEAP_YEARS = [1996, 2000, 2004],
     NON_LEAP_YEARS = [1997, 1998, 1999, 2100];
 
 describe('Month', function(){
-    xdescribe('constructor', () => {
-        xit('takes a string', function() {
+    describe('constructor', () => {
+        it('takes an object', function() {
+            let month = new Month({ year: 2015, month: 9 });
+
+            assert.equal(2015, month.year);
+            assert.equal(9, month.month);
         });
-        xit('takes an object', function() {
-        });
-        xit('two integers', function() {
+        it('takes numbers', function() {
+            let month = new Month(2015, 9);
+
+            assert.equal(2015, month.year);
+            assert.equal(9, month.month);
         });
     });
 
