@@ -85,22 +85,22 @@ describe('Day', () => {
         });
     });
 
-    xdescribe('.isEqual(subject, comparison', function() {
+    describe('.isEqual(comparison)', function() {
         it('returns true when subject and comparison are the same day', function() {
-            let subject = { year: 2015, month: 5, day: 5 };
-            let comparison = { year: 2015, month: 5, day: 5 };
+            let subject = new Day({ year: 2015, month: 5, day: 5 });
+            let comparison = new Day({ year: 2015, month: 5, day: 5 });
 
-            assert(day.isEqual(subject, comparison));
+            assert(subject.isEqual(comparison));
         });
         it('returns false when subject and comparison are not the same day', function() {
-            let subject = { year: 2015, month: 5, day: 5 },
-                comparison1 = { year: 2014, month: 5, day: 5 },
-                comparison2 = { year: 2015, month: 4, day: 5 },
-                comparison3 = { year: 2015, month: 5, day: 4 };
+            let subject = new Day({ year: 2015, month: 5, day: 5 }),
+                comparison1 = new Day({ year: 2014, month: 5, day: 5 }),
+                comparison2 = new Day({ year: 2015, month: 4, day: 5 }),
+                comparison3 = new Day({ year: 2015, month: 5, day: 4 });
 
-            assert(!day.isEqual(subject, comparison1));
-            assert(!day.isEqual(subject, comparison2));
-            assert(!day.isEqual(subject, comparison3));
+            assert(!subject.isEqual(comparison1));
+            assert(!subject.isEqual(comparison2));
+            assert(!subject.isEqual(comparison3));
         });
     });
 });
