@@ -6,6 +6,14 @@ const monthWithLastDayOnTuesday = {
     year: 2015,
     month: 3
 };
+const monthWithFirstDayOnWeekStart = {
+    year: 2015,
+    month: 3
+};
+const monthWithFirstDayOnMonday = {
+    year: 2015,
+    month: 6
+};
 
 describe('Calendar', () => {
     describe('constructor', () => {
@@ -27,10 +35,6 @@ describe('Calendar', () => {
         it('discards previous month when current month starts on weekStart',
            function()
         {
-            const monthWithFirstDayOnWeekStart = {
-                    year: 2015,
-                    month: 3
-                };
             assert.deepEqual(
                 {
                     year: 2015,
@@ -98,18 +102,18 @@ describe('Calendar', () => {
         });
 
         it('previous months are marked as sibling month', function () {
-            const monthWithFirstDayOnFriday = {
+            const monthWithFirstDayOnWednesday = {
                 year: 2015,
                 month: 4
             };
-            let result = new Calendar(monthWithFirstDayOnFriday).days();
+            let result = new Calendar(monthWithFirstDayOnWednesday).days();
 
             assert(result[0][0].isSiblingMonth);
             assert(result[0][1].isSiblingMonth);
             assert(result[0][2].isSiblingMonth);
 
             // make sure current month is not flagged
-            assert(!result[3].isSiblingMonth);
+            assert(!result[0][3].isSiblingMonth);
         });
 
         it('next months are marked as sibling month', function () {
@@ -123,7 +127,7 @@ describe('Calendar', () => {
         });
     });
 
-    it('flags today', function() {
+    it('marks today', function() {
         let curDate = new Date();
         let curMonth = {
             year: curDate.getFullYear(),
@@ -152,6 +156,20 @@ describe('calendar(month, options)', () => {
             assert.equal(2, result[0][0].dayOfWeek);
             assert.equal(2, result[0][0].month);
             assert.equal(24, result[0][0].day);
+        });
+
+        it('affects prepending sibling month', function () {
+            let sixPrepended =
+                new Calendar(monthWithFirstDayOnMonday, { weekStart: 0 })
+                    .days();
+            let noPrepended =
+                new Calendar({ year: 2015, month: 6 }, { weekStart: 1 })
+                    .days();
+
+            assert.deepEqual(_.pick(noPrepended[0][0], ['year', 'month', 'day']),
+                { year: 2015, month: 6, day: 1 });
+            assert.deepEqual(_.pick(sixPrepended[0][0], ['year', 'month', 'day']),
+                { year: 2015, month: 5, day: 31 });
         });
 
         it('affects appending sibling month', function () {
