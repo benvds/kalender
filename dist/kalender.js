@@ -47,6 +47,8 @@ var _consts = require('./consts');
 
 var _month = require('./month');
 
+var _month2 = _interopRequireDefault(_month);
+
 /**
  * Returns collection of day objects for the given month. Includes days from
  * sibling months to make for full weeks. Defaults to the current month.
@@ -59,8 +61,6 @@ var _month = require('./month');
  *
  * @returns {Object[]} days
  */
-
-var _month2 = _interopRequireDefault(_month);
 
 var Calendar = (function () {
     function Calendar(month, options) {
