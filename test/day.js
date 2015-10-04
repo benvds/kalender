@@ -15,6 +15,15 @@ describe('Day', () => {
             assert.equal(day.month, args.month);
             assert.equal(day.day, args.day);
         });
+
+        it('defaults to today', () => {
+            let today = new Date();
+            let day = new Day();
+
+            assert.equal(day.year, today.getFullYear());
+            assert.equal(day.month, today.getMonth() + 1);
+            assert.equal(day.day, today.getDate());
+        });
     });
 
     describe('.date()', () => {
