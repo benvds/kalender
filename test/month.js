@@ -103,20 +103,20 @@ describe('Month', function(){
 
             for (let i = 1; i < 30; i++) {
                 assert.equal(2, days[i - 1].month);
-                assert.equal(i, days[i - 1].day);
+                assert.equal(i, days[i - 1].date);
             }
 
             assert.equal(29, days.length);
         });
 
-        it('returns dayOfWeeks for each day', function() {
+        it('returns days for each day', function() {
             let days = new Month({ year: 2015, month: 4 }).days();
 
-            assert.equal(3, days[0].dayOfWeek);
-            assert.equal(4, days[1].dayOfWeek);
-            assert.equal(5, days[2].dayOfWeek);
-            assert.equal(6, days[3].dayOfWeek);
-            assert.equal(0, days[4].dayOfWeek);
+            assert.equal(3, days[0].day);
+            assert.equal(4, days[1].day);
+            assert.equal(5, days[2].day);
+            assert.equal(6, days[3].day);
+            assert.equal(0, days[4].day);
         });
     });
 });

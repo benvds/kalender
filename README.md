@@ -2,6 +2,11 @@
 
 Basic component for rendering calendars.
 
+## Todo
+
+- [ ] default to javascript's 0-based index for months and weekdays
+- [ ] use 1-based index only for string inputs
+
 **IMPORTANT**: This is a heavily opinionated component and deviates from
 Javascript's default Date interface. *This component uses a 1-based index for
 months.* Javascript's Date interface inconsistently uses a 0-based index for
@@ -98,13 +103,13 @@ Returns month next to given month.
 
 ### day
 
-`day.dayOfWeek({ year: year, month: month, day: day })`
+`day.day({ year: year, month: month, day: day })`
 
 Returns day of week for given day. Results range from 1 to 7.
 
-    > day.dayOfWeek({ year: 2015, month: 4, day: 4 })
+    > day.day({ year: 2015, month: 4, day: 4 })
     7
-    > day.dayOfWeek({ year: 2015, month: 4, day: 5 })
+    > day.day({ year: 2015, month: 4, day: 5 })
     1
 
 `day.isBefore(subjectDay, comparisonDay);`
