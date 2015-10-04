@@ -12,11 +12,20 @@ describe('Month', function(){
             assert.equal(2015, month.year);
             assert.equal(9, month.month);
         });
+
         it('takes numbers', function() {
             let month = new Month(2015, 9);
 
             assert.equal(2015, month.year);
             assert.equal(9, month.month);
+        });
+
+        it('defaults to the current month', function() {
+            let month = new Month();
+            let today = new Date();
+
+            assert.equal(today.getFullYear(), month.year);
+            assert.equal(today.getMonth() + 1, month.month);
         });
     });
 
