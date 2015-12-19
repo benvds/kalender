@@ -44,9 +44,19 @@ function yearAndMonthFromDate(date) {
     };
 }
 
+function parseWeekStart(dateValue, weekStart) {
+    if (typeof weekStart === 'number') {
+        return weekStart;
+    } else if (typeof dateValue === 'object') {
+        return dateValue.weekStart;
+    }
+}
+
 // array of all dates including surrounding days
-function calendarDays(dateValue, weekStart) {
+function calendarDays(dateValue, _weekStart) {
     const { year, month } = yearAndMonth(dateValue);
+    const weekStart = parseWeekStart(dateValue, _weekStart);
+
     const startDayOfMonth = -1 * daysMissingBefore(year, month, weekStart);
     const amountDays = totalDays(year, month);
     let result = new Array(amountDays);

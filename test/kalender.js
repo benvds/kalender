@@ -8,6 +8,7 @@ describe('kalender', () => {
         assert(result instanceof Array);
         assert(result[0] instanceof Array);
         assert(result[0][0] instanceof Date);
+        assert(result[4][6] instanceof Date);
     });
 
     it('defaults to the current month', () => {
@@ -41,6 +42,12 @@ describe('kalender', () => {
 
         assert.equal(monday[0][0].getDay(), 1);
         assert.equal(saturday[1][0].getDay(), 6);
+    });
+
+    it('takes a weekStart on the first argument as an attribute', () => {
+        const monday = kalender({ year: 1983, month: 9, weekStart: 1 });
+
+        assert.equal(monday[0][0].getDay(), 1);
     });
 
     it('prepends days to fill the first week', () => {
