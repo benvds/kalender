@@ -106,7 +106,7 @@ function emptyCalendar(totalDays) {
 export default function kalender(dateValue, weekStart) {
     const days = calendarDays(dateValue, weekStart);
     
-    return days.reduce(function combiner(calendar, day, index) {
+    return days.reduce(function fillCalendar(calendar, day, index) {
         const weekIndex = Math.floor(index / daysPerWeek);
         const dayIndex = index % daysPerWeek;
         
@@ -115,6 +115,3 @@ export default function kalender(dateValue, weekStart) {
         return calendar;
     }, emptyCalendar(days.length));
 }
-
-// calendarDays({ year: 2015, month: 11 });
-// console.log(calendar(undefined, 1)[4][0].toString());
