@@ -35,7 +35,7 @@
     "unused": "strict",
     "maxparams": 3,
     "maxdepth": 3,
-    "maxstatements": 5,
+    "maxstatements": 8,
     "esnext": true
   },
   "jscsConfig": {

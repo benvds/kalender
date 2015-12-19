@@ -25,13 +25,13 @@ const daysPerWeek = 7;
  */
 export default function kalender(dateValue, weekStart) {
     const days = calendarDays(dateValue, weekStart);
-    
+
     return days.reduce(function fillCalendar(calendar, day, index) {
         const weekIndex = Math.floor(index / daysPerWeek);
         const dayIndex = index % daysPerWeek;
-        
+
         calendar[weekIndex][dayIndex] = day;
-        
+
         return calendar;
     }, emptyCalendar(days.length));
 }
@@ -54,15 +54,14 @@ export default function kalender(dateValue, weekStart) {
 function calendarDays(dateValue, _weekStart) {
     const { year, month } = yearAndMonth(dateValue);
     const weekStart = parseWeekStart(dateValue, _weekStart);
-
     const startDayOfMonth = -1 * daysMissingBefore(year, month, weekStart);
     const amountDays = totalDays(year, month);
     let result = new Array(amountDays);
-    
+
     for (let i = 1; i <= amountDays; i++) {
         result[i - 1] = new Date(year, month, startDayOfMonth + i);
     }
-    
+
     return result;
 }
 
@@ -132,9 +131,10 @@ function parseWeekStart(dateValue, weekStart) {
  *  @returns {Number} amount of days missing before the first day of the month
  *
  */
-function daysMissingBefore(year, month, weekStart = 0) {  
-    return (daysPerWeek - weekStart + new Date(year, month, 1).getDay())
-        % daysPerWeek;
+function daysMissingBefore(year, month, weekStart = 0) {
+    return (
+        daysPerWeek - weekStart + new Date(year, month, 1).getDay()
+    ) % daysPerWeek;
 }
 
 /**
@@ -192,10 +192,10 @@ function totalDays(year, month, weekStart) {
 function emptyCalendar(totalDays) {
     const totalWeeks = totalDays / daysPerWeek;
     let result = [];
-    
+
     for (let i = 0; i < totalWeeks; i++) {
         result[i] = new Array(daysPerWeek);
     }
-    
+
     return result;
 }
