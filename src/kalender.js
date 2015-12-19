@@ -5,12 +5,12 @@ const daysPerWeek = 7;
  *  month.
  *
  *  Examples:
- *      kalender() == calendar(new Date())
+ *      kalender() == kalender(new Date())
  *      kalender(new Date(2014, 0, 31))
  *      kalender({ year: 2014, month: 0 })
  *      kalender('2014-1-31')
  *      kalender('2014-1-31', 1)
- *      kalender({ weekStart: 1 }) == calendar(new Date(), 1)
+ *      kalender({ weekStart: 1 }) == kalender(new Date(), 1)
  *
  *  @argument {Date|Object|String} dateValue a value which represents a date.
  *              An object should contain a year and month value like, e.g.
@@ -37,8 +37,8 @@ export default function kalender(dateValue, weekStart) {
 }
 
 /**
- *  Returns an array table for the calendar dates. Includes surrounding days
- *  to fill all the weeks.
+ *  Returns an array with the calendar dates. Includes surrounding days to fill
+ *  all the weeks.
  *
  *  @argument {Date|Object|String|undefined} dateValue a value which represents
  *              a date. An object should contain a year and month value like,
