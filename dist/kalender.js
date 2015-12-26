@@ -4,532 +4,211 @@
 Object.defineProperty(exports, '__esModule', {
     value: true
 });
-
-function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj['default'] = obj; return newObj; } }
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
-
-var _libMonth = require('./lib/month');
-
-var _libMonth2 = _interopRequireDefault(_libMonth);
-
-var _libDay = require('./lib/day');
-
-var _libDay2 = _interopRequireDefault(_libDay);
-
-var _libUtil = require('./lib/util');
-
-var util = _interopRequireWildcard(_libUtil);
-
-var _libCalendar = require('./lib/calendar');
-
-var _libCalendar2 = _interopRequireDefault(_libCalendar);
-
-exports.Month = _libMonth2['default'];
-exports.Day = _libDay2['default'];
-exports.Calendar = _libCalendar2['default'];
-exports.util = util;
-
-},{"./lib/calendar":2,"./lib/day":4,"./lib/month":5,"./lib/util":6}],2:[function(require,module,exports){
-'use strict';
-
-Object.defineProperty(exports, '__esModule', {
-    value: true
-});
-
-var _createClass = (function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ('value' in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; })();
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
-
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError('Cannot call a class as a function'); } }
-
-var _consts = require('./consts');
-
-var _month = require('./month');
-
-var _month2 = _interopRequireDefault(_month);
+exports['default'] = kalender;
+var daysPerWeek = 7;
 
 /**
- * Returns collection of day objects for the given month. Includes days from
- * sibling months to make for full weeks. Defaults to the current month.
+ *  Return a table of dates. Includes dates for missing days surrounding the
+ *  month.
  *
- * @argument {Object} month
- * @argument {Number} month.year
- * @argument {Number} month.month
- * @argument {Object} options
- * @argument {Number} options.weekStart sets the first day of week
+ *  Examples:
+ *      kalender() == kalender(new Date())
+ *      kalender(new Date(2014, 0, 31))
+ *      kalender({ year: 2014, month: 0 })
+ *      kalender('2014-1-31')
+ *      kalender('2014-1-31', 1)
+ *      kalender({ weekStart: 1 }) == kalender(new Date(), 1)
  *
- * @returns {Object[]} days
+ *  @argument {Date|Object|String} dateValue a value which represents a date.
+ *              An object should contain a year and month value like, e.g.
+ *              { year: 1999, month: 0 }. A string is passed to the Date
+ *              constructor. When undefined calendar defaults to the current
+ *              month
+ *  @argument {Number} weekStart day in which the week starts. 0-based index,
+ *              0 is sunday, 6 is saturday
+ *
+ *  @returns {Date[][]} nested arrays of dates grouped per week
+ *
  */
 
-var Calendar = (function () {
-    function Calendar(month, options) {
-        _classCallCheck(this, Calendar);
+function kalender(dateValue, weekStart) {
+    var days = calendarDays(dateValue, weekStart);
 
-        this.weekStart = this.getWeekStart(options);
-        this.month = new _month2['default'](month || this.defaultMonth());
-    }
+    return days.reduce(function fillCalendar(calendar, day, index) {
+        var weekIndex = Math.floor(index / daysPerWeek);
+        var dayIndex = index % daysPerWeek;
 
-    _createClass(Calendar, [{
-        key: 'days',
-        value: function days() {
-            var currentDays = this.month.days();
-            var days = [].concat(this.daysMissingBefore()).concat(currentDays).concat(this.daysMissingAfter(currentDays));
+        calendar[weekIndex][dayIndex] = day;
 
-            return this.groupPerWeek(this.markToday(days));
-        }
-
-        /**
-         * Returns the current month
-         *
-         * @returns {Object} month
-         * @returns {Object} month.year
-         * @returns {Object} month.month
-         */
-    }, {
-        key: 'defaultMonth',
-        value: function defaultMonth() {
-            var today = new Date();
-
-            return {
-                year: today.getFullYear(),
-                month: today.getMonth() + 1
-            };
-        }
-
-        /**
-         * Returns week start using the one defined in options otherwise falls back to
-         * default week start.
-         *
-         * @argument {Object} options
-         * @argument {Number} options.weekStart sets the first day of week
-         *
-         * @returns {Number} week start
-         */
-    }, {
-        key: 'getWeekStart',
-        value: function getWeekStart(options) {
-            var WEEK_START_DEFAULT = 0;
-
-            if (options && options.weekStart) {
-                return options.weekStart;
-            } else {
-                return WEEK_START_DEFAULT;
-            }
-        }
-
-        /**
-         * Returns collection of day objects for the month before given month. Only
-         * includes days to make a full week.
-         *
-         * @returns {Array} collection of days
-         */
-    }, {
-        key: 'daysMissingBefore',
-        value: function daysMissingBefore() {
-            var amount = this.amountMissingBefore();
-
-            if (amount) {
-                var days = this.month.previous().days().slice(-1 * amount);
-
-                return this.markSiblingMonths(days);
-            } else {
-                return [];
-            }
-        }
-
-        /**
-         * Returns amount of days missing before given month to make a full week.
-         *
-         * @argument {Object} month
-         * @argument {Number} month.year
-         * @argument {Number} month.month
-         *
-         * @returns {Number} amount of days
-         */
-    }, {
-        key: 'amountMissingBefore',
-        value: function amountMissingBefore() {
-            return (_consts.DAYS_PER_WEEK - this.weekStart + new Date(this.month.year, this.month.month - 1, 1).getDay()) % _consts.DAYS_PER_WEEK;
-        }
-
-        /**
-         * Returns collection of days marked as sibling month.
-         *
-         * @argument {Object[]} days
-         * @argument {Number} days[].year
-         * @argument {Number} days[].month
-         * @argument {Number} days[].day
-         *
-         * @returns {Object[]} days with attribute isSiblingMonth: true
-         */
-    }, {
-        key: 'markSiblingMonths',
-        value: function markSiblingMonths(days) {
-            return days.map(function (day) {
-                day.isSiblingMonth = true;
-
-                return day;
-            });
-        }
-
-        /**
-         * Returns collection of day objects for the month after given month. Only
-         * includes days to make a full week.
-         *
-         * @argument {Object} month
-         * @argument {Number} month.year
-         * @argument {Number} month.month
-         *
-         * @returns {Array} collection of days
-         */
-    }, {
-        key: 'daysMissingAfter',
-        value: function daysMissingAfter(currentDays) {
-            if (this.amountMissingAfter(currentDays)) {
-                var days = this.month.next().days().slice(0, this.amountMissingAfter(currentDays));
-
-                return this.markSiblingMonths(days);
-            } else {
-                return [];
-            }
-        }
-
-        /**
-         * Returns amount of days missing after given month to make a full week.
-         *
-         * @argument {Object} month
-         * @argument {Number} month.year
-         * @argument {Number} month.month
-         *
-         * @returns {Number} amount of days
-         */
-    }, {
-        key: 'amountMissingAfter',
-        value: function amountMissingAfter(currentDays) {
-            var lastDayOfWeek = currentDays[currentDays.length - 1].dayOfWeek;
-
-            return (_consts.DAYS_PER_WEEK + this.weekStart - lastDayOfWeek - 1) % _consts.DAYS_PER_WEEK;
-        }
-    }, {
-        key: 'markToday',
-        value: function markToday(days) {
-            var today = new Date();
-            var dayOfMonth = today.getDate();
-            var year = today.getFullYear();
-            var month = today.getMonth() + 1;
-
-            return days.map(function (day) {
-                if (day.day === dayOfMonth && day.month === month && day.year === year) {
-                    day.isToday = true;
-                }
-
-                return day;
-            });
-        }
-
-        /**
-         * Group the days per week.
-         *
-         * @argument {Object[]} days
-         *
-         * @returns {Object[][]} returns a matrix of weeks and days
-         */
-    }, {
-        key: 'groupPerWeek',
-        value: function groupPerWeek(days) {
-            var amountOfWeeks = days.length / _consts.DAYS_PER_WEEK;
-            var weeks = [];
-
-            for (var week = 0; week < amountOfWeeks; week++) {
-                weeks.push(days.slice(week * _consts.DAYS_PER_WEEK, (week + 1) * _consts.DAYS_PER_WEEK));
-            }
-
-            return weeks;
-        }
-    }]);
-
-    return Calendar;
-})();
-
-exports['default'] = Calendar;
-module.exports = exports['default'];
-
-},{"./consts":3,"./month":5}],3:[function(require,module,exports){
-'use strict';
-
-Object.defineProperty(exports, '__esModule', {
-  value: true
-});
-var MONTHS_PER_YEAR = 12;
-exports.MONTHS_PER_YEAR = MONTHS_PER_YEAR;
-var DAYS_PER_WEEK = 7;
-exports.DAYS_PER_WEEK = DAYS_PER_WEEK;
-
-},{}],4:[function(require,module,exports){
-'use strict';
-
-Object.defineProperty(exports, '__esModule', {
-    value: true
-});
-
-var _createClass = (function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ('value' in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; })();
-
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError('Cannot call a class as a function'); } }
-
-var Day = (function () {
-    /**
-     * Sets the year, month and day.
-     *
-     * @argument {Object} args
-     * @argument {Number} args.year
-     * @argument {Number} args.month
-     * @argument {Number} args.day
-     */
-
-    function Day(args) {
-        _classCallCheck(this, Day);
-
-        this.year = args.year;
-        this.month = args.month;
-        this.day = args.day;
-        this.dayOfWeek = args.dayOfWeek;
-    }
-
-    /**
-     * Returns new native Date object for day.
-     *
-     * @returns {Date} date for day
-     */
-
-    _createClass(Day, [{
-        key: 'date',
-        value: function date() {
-            return new Date(this.year, this.month - 1, this.day);
-        }
-
-        /**
-         * Returns day of week for given day. 1 for sunday, 7 for monday.
-         *
-         * @returns {Number} day of week
-         */
-    }, {
-        key: 'getDayOfWeek',
-        value: function getDayOfWeek() {
-            return this.date().getDay();
-        }
-
-        /**
-         * Returns true when days are the same
-         *
-         * @arguments {Day} day to compare
-         *
-         * @returns {Boolean} comparison is the same day
-         */
-    }, {
-        key: 'isEqual',
-        value: function isEqual(comparison) {
-            return +this.date() === +comparison.date();
-        }
-
-        /**
-         * Returns true when this day is before comparison day. Returns false when
-         * days are the same.
-         *
-         * @arguments {Day} day to compare
-         *
-         * @returns {Boolean} this day is before comparison day
-         */
-    }, {
-        key: 'isBefore',
-        value: function isBefore(comparison) {
-            return +this.date() < +comparison.date();
-        }
-
-        /**
-         * Returns true when this day is after comparison day. Returns false when
-         * days are the same.
-         *
-         * @arguments {Day} day to compare
-         *
-         * @returns {Boolean} this day is after comparison day
-         */
-    }, {
-        key: 'isAfter',
-        value: function isAfter(comparison) {
-            return +this.date() > +comparison.date();
-        }
-    }]);
-
-    return Day;
-})();
-
-exports['default'] = Day;
-module.exports = exports['default'];
-
-},{}],5:[function(require,module,exports){
-'use strict';
-
-Object.defineProperty(exports, '__esModule', {
-    value: true
-});
-
-var _createClass = (function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ('value' in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; })();
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
-
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError('Cannot call a class as a function'); } }
-
-var _consts = require('./consts');
-
-var _day = require('./day');
-
-var _day2 = _interopRequireDefault(_day);
-
-function toArray(subject) {
-    return Array.prototype.slice.call(subject);
+        return calendar;
+    }, emptyCalendar(days.length));
 }
-
-var Month = (function () {
-    /**
-     * Sets the year, month
-     */
-
-    function Month() {
-        _classCallCheck(this, Month);
-
-        var args = toArray(arguments);
-
-        if (typeof args[0] === 'number') {
-            this.constructWithNumbers(args);
-        } else if (typeof args[0] === 'object') {
-            this.constructWithObject(args[0]);
-        }
-    }
-
-    _createClass(Month, [{
-        key: 'constructWithNumbers',
-        value: function constructWithNumbers(numbers) {
-            this.year = numbers[0];
-            this.month = numbers[1];
-        }
-    }, {
-        key: 'constructWithObject',
-        value: function constructWithObject(object) {
-            this.year = object.year;
-            this.month = object.month;
-        }
-
-        /**
-         * Returns collection of days for this month.
-         *
-         * @returns {Array} collection of days
-         */
-    }, {
-        key: 'days',
-        value: function days() {
-            var result = [];
-
-            var firstDayOfWeek = new _day2['default']({
-                year: this.year,
-                month: this.month,
-                day: 1
-            }).getDayOfWeek();
-
-            for (var currentDay = 0, amount = this.amountOfDays(); currentDay < amount; currentDay++) {
-                result.push(new _day2['default']({
-                    year: this.year,
-                    month: this.month,
-                    day: currentDay + 1,
-                    dayOfWeek: (firstDayOfWeek + currentDay) % _consts.DAYS_PER_WEEK
-                }));
-            }
-
-            return result;
-        }
-
-        /**
-         * Returns previous month.
-         *
-         * @returns {Object} new month object
-         */
-    }, {
-        key: 'previous',
-        value: function previous() {
-            if (this.month === 1) {
-                return new Month({
-                    year: this.year - 1,
-                    month: _consts.MONTHS_PER_YEAR
-                });
-            } else {
-                return new Month({
-                    year: this.year,
-                    month: this.month - 1
-                });
-            }
-        }
-
-        /**
-         * Returns next month.
-         *
-         * @returns {Object} new Month object
-         */
-    }, {
-        key: 'next',
-        value: function next() {
-            if (this.month === _consts.MONTHS_PER_YEAR) {
-                return new Month({
-                    year: this.year + 1,
-                    month: 1
-                });
-            } else {
-                return new Month({
-                    year: this.year,
-                    month: this.month + 1
-                });
-            }
-        }
-
-        /**
-         * Returns amount of days for month.
-         *
-         * @returns {Number} amount of days
-         */
-    }, {
-        key: 'amountOfDays',
-        value: function amountOfDays() {
-            return new Date(this.year, this.month, 0).getDate();
-        }
-    }]);
-
-    return Month;
-})();
-
-exports['default'] = Month;
-module.exports = exports['default'];
-
-},{"./consts":3,"./day":4}],6:[function(require,module,exports){
-'use strict';
 
 /**
- * Returns a new calendar with the results of calling a provided callback
- * function on every day.
+ *  Returns an array with the calendar dates. Includes surrounding days to fill
+ *  all the weeks.
  *
- * @argument {Object[][]} calendar
- * @argument {Function} callback
+ *  @argument {Date|Object|String|undefined} dateValue a value which represents
+ *              a date. An object should contain a year and month value like,
+ *              e.g. { year: 1999, month: 0 }. A string is passed to the Date
+ *              constructor. When undefined calendar defaults to the current
+ *              month
+ *  @argument {Number} weekStart day in which the week starts. 0-based index,
+ *              0 is sunday, 6 is saturday
  *
- * @returns {Object[][]} calendar with days mapped with callback
+ *  @returns {Date[]} an array of dates for the calendar
+ *
  */
-Object.defineProperty(exports, '__esModule', {
-  value: true
-});
-function mapDays(calendar, callback) {
-  return calendar.map(function (week) {
-    return week.map(callback);
-  });
+function calendarDays(dateValue, _weekStart) {
+    var _yearAndMonth = yearAndMonth(dateValue);
+
+    var year = _yearAndMonth.year;
+    var month = _yearAndMonth.month;
+
+    var weekStart = parseWeekStart(dateValue, _weekStart);
+    var startDayOfMonth = -1 * daysMissingBefore(year, month, weekStart);
+    var amountDays = totalDays(year, month);
+    var result = new Array(amountDays);
+
+    for (var i = 1; i <= amountDays; i++) {
+        result[i - 1] = new Date(year, month, startDayOfMonth + i);
+    }
+
+    return result;
 }
 
-exports.mapDays = mapDays;
+/**
+ *  Returns a year/month object from dateValue. Defaults to the current month.
+ *
+ *  @argument {Date|Object|String|undefined} dateValue
+ *
+ *  @returns {Object} a year/month object
+ *
+ */
+function yearAndMonth(dateValue) {
+    if (dateValue instanceof Date) {
+        return yearAndMonthFromDate(dateValue);
+    } else if (typeof dateValue === 'object') {
+        return dateValue;
+    } else if (typeof dateValue === 'undefined') {
+        return yearAndMonthFromDate(new Date());
+    } else {
+        return yearAndMonthFromDate(new Date(dateValue));
+    }
+}
+
+/**
+ *  Returns an object containing a year and month. Months use Date's 0-based
+ *  index.
+ *
+ *  @argument {Date} date
+ *
+ *  @returns {Object} containing the date's year and month
+ *
+ */
+function yearAndMonthFromDate(date) {
+    return {
+        year: date.getFullYear(),
+        month: date.getMonth()
+    };
+}
+
+/**
+ *  Returns the week start. The weekStart argument takes precedence otherwise
+ *  it looks into a dateValue object. Returns undefined if no weekStart is
+ *  found.
+ *
+ *  @argument {Date|Object|String|undefined} dateValue
+ *  @argument {Number} weekStart day in which the week starts
+ *
+ *  @returns {Number|undefined} the week start index
+ *
+ */
+function parseWeekStart(dateValue, weekStart) {
+    if (typeof weekStart === 'number') {
+        return weekStart;
+    } else if (typeof dateValue === 'object') {
+        return dateValue.weekStart;
+    }
+}
+
+/**
+ *  Returns amount of days missing before the first of the month given a week
+ *  starts on week start.
+ *
+ *  @argument {Number} year
+ *  @argument {Number} month
+ *  @argument {Number} weekStart 0 = sunday, 6 = saturday
+ *
+ *  @returns {Number} amount of days missing before the first day of the month
+ *
+ */
+function daysMissingBefore(year, month) {
+    var weekStart = arguments.length <= 2 || arguments[2] === undefined ? 0 : arguments[2];
+
+    return (daysPerWeek - weekStart + new Date(year, month, 1).getDay()) % daysPerWeek;
+}
+
+/**
+ *  Returns actual days in a month excluding surrounding days
+ *
+ *  @argument {Number} year
+ *  @argument {Number} month
+ *
+ *  @returns {Number} amount of days for a month excluding surrounding days
+ *
+ */
+function daysInMonth(year, month) {
+    return new Date(year, month + 1, 0).getDate();
+}
+
+/**
+ *  Returns amount of weeks for a month including surrounding days.
+ *
+ *  @argument {Number} year
+ *  @argument {Number} month
+ *  @argument {Number} weekStart
+ *
+ *  @returns {Number} amount of weeks for a month including surrounding days
+ *
+ */
+function weeksForMonth(year, month, weekStart) {
+    return Math.ceil((daysInMonth(year, month) + daysMissingBefore(year, month, weekStart)) / daysPerWeek);
+}
+
+/**
+ *  Returns the totals days for a month including surrounding days.
+ *
+ *  @argument {Number} year
+ *  @argument {Number} month
+ *  @argument {Number} weekStart
+ *
+ *  @returns {Number} amount of days for a month including surrounding days
+ *
+ */
+function totalDays(year, month, weekStart) {
+    return weeksForMonth(year, month, weekStart) * daysPerWeek;
+}
+
+/**
+ *  Returns an empty table for the calendar dates.
+ *
+ *  @argument {Number} totalDays total number of days for the calendar
+ *
+ *  @returns {[][]} nested arrays for each week of the calendar
+ *
+ */
+function emptyCalendar(totalDays) {
+    var totalWeeks = totalDays / daysPerWeek;
+    var result = [];
+
+    for (var i = 0; i < totalWeeks; i++) {
+        result[i] = new Array(daysPerWeek);
+    }
+
+    return result;
+}
+module.exports = exports['default'];
 
 },{}]},{},[1])(1)
 });
