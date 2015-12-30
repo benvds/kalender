@@ -12,10 +12,10 @@ Returns a nested array of calendar dates.
     kalender({ weekStart: 1 }) == kalender(new Date(), 1)
 
 
-## Reasoning
+## Why
 
 I've been using various calender and datepicker widgets. Eventually I got
-frustrated with all of them.
+frustrated with all of them. Goals for Kalender are:
 
 1. readable, understandable and maintainable
 2. minimal API, e.g. calendar logic should not contain render logic
