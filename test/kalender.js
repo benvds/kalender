@@ -79,4 +79,12 @@ describe('kalender', () => {
         assert.equal(result[4][5].getMonth(), 9);
         assert.equal(result[4][6].getMonth(), 10);
     });
+
+    it('does not appends days when not needed', () => {
+
+        const result = kalender('2016-01-01',1);
+
+        assert.equal(result[4][6].getDate(), 31);
+        assert.equal(typeof result[5], 'undefined');
+    });
 });

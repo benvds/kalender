@@ -55,7 +55,7 @@ function calendarDays(dateValue, _weekStart) {
     const { year, month } = yearAndMonth(dateValue);
     const weekStart = parseWeekStart(dateValue, _weekStart);
     const startDayOfMonth = -1 * daysMissingBefore(year, month, weekStart);
-    const amountDays = totalDays(year, month);
+    const amountDays = totalDays(year, month, weekStart);
     let result = new Array(amountDays);
 
     for (let i = 1; i <= amountDays; i++) {
