@@ -1,5 +1,6 @@
 const daysPerWeek = 7;
 
+type Kalender = Date[][];
 type WeekStart = number;
 type DateArgs = Date | Month | string;
 
@@ -7,8 +8,6 @@ interface Month {
     year: number;
     month: number;
 }
-
-
 
 /**
  *  Return a table of dates. Includes dates for missing days surrounding the
@@ -38,8 +37,10 @@ interface  KalenderOptionsObj {
 }
 type KalenderOptions = WeekStart | KalenderOptionsObj;
 
-export default function kalender(dateArgs = new Date(), weekStart?: KalenderOptions): Date[][] {
-    const days = calendarDays(dateArgs, weekStart);
+export default function kalender(dateArgs = new Date(), options?: KalenderOptions): Kalender {
+    const month = yearAndMonth(dateArgs);
+    const weekStart = parseOptions(options);
+    const days = calendarDays(month, weekStart);
 
     return days.reduce(function fillCalendar(calendar, day, index) {
         const weekIndex = Math.floor(index / daysPerWeek);
@@ -66,9 +67,7 @@ export default function kalender(dateArgs = new Date(), weekStart?: KalenderOpti
  *  @returns {Date[]} an array of dates for the calendar
  *
  */
-function calendarDays(dateArgs: DateArgs, options?: KalenderOptions): Date[] {
-    const month = yearAndMonth(dateArgs);
-    const weekStart = parseOptions(options);
+function calendarDays(month: Month, weekStart: WeekStart): Date[] {
     const startDayOfMonth = -1 * daysMissingBefore(month, weekStart);
     const amountDays = totalDays(month, weekStart);
     let result = new Array(amountDays);
@@ -205,7 +204,7 @@ function totalDays(month: Month, weekStart: WeekStart): number {
  *  @returns {[][]} nested arrays for each week of the calendar
  *
  */
-function emptyCalendar(totalDays: number): Date[][] {
+function emptyCalendar(totalDays: number): Kalender {
     const totalWeeks = totalDays / daysPerWeek;
     let result = [];
 
