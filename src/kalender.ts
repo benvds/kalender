@@ -37,8 +37,8 @@ interface  KalenderOptionsObj {
 }
 type KalenderOptions = WeekStart | KalenderOptionsObj;
 
-export default function kalender(dateArgs = new Date(), options?: KalenderOptions): Kalender {
-    const month = yearAndMonth(dateArgs);
+export default function kalender(dateArgs: DateArgs = new Date(), options?: KalenderOptions): Kalender {
+    const month = monthFromDateArgs(dateArgs);
     const weekStart = parseOptions(options);
     const days = calendarDays(month, weekStart);
 
@@ -87,13 +87,13 @@ function calendarDays(month: Month, weekStart: WeekStart): Date[] {
  *  @returns {Object} a year/month object
  *
  */
-function yearAndMonth(dateArgs: DateArgs): Month {
+function monthFromDateArgs(dateArgs: DateArgs): Month {
     if (dateArgs instanceof Date) {
-        return yearAndMonthFromDate(dateArgs);
+        return monthFromDate(dateArgs);
     } else if (typeof dateArgs === 'object') {
         return dateArgs;
     } else {
-        return yearAndMonthFromDate(new Date(dateArgs));
+        return monthFromDate(new Date(dateArgs));
     }
 }
 
@@ -106,7 +106,7 @@ function yearAndMonth(dateArgs: DateArgs): Month {
  *  @returns {Month} containing the date's year and month
  *
  */
-function yearAndMonthFromDate(date: Date): Month {
+function monthFromDate(date: Date): Month {
     return {
         year: date.getFullYear(),
         month: date.getMonth()
