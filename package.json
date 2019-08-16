@@ -8,9 +8,12 @@
     "browserify": "^16.0.0",
     "exorcist": "^1.0.1",
     "mocha": "^6.0.0",
+    "prettier": "^1.18.2",
     "ts-node": "^8.0.0",
     "tsd": "^0.7.0",
     "tsify": "^4.0.0",
+    "tslint": "^5.18.0",
+    "tslint-config-prettier": "^1.18.0",
     "typescript": "^3.0.0",
     "uglify-js": "^3.0.0"
   },
@@ -19,7 +22,8 @@
     "test:watch": "mocha --watch test --require ts-node/register \"test/**/*.ts\"",
     "build": "browserify ./src/kalender.ts --plugin tsify --standalone kalender --debug | exorcist ./dist/kalender.js.map > ./dist/kalender.js",
     "compress": "uglifyjs --compress --mangle --bare-returns --output ./dist/kalender.min.js -- ./dist/kalender.js",
-    "dist": "npm run build && npm run compress"
+    "dist": "npm run build && npm run compress",
+    "lint": "tslint -c tslint.json \"src/**/*.ts\""
   },
   "author": {
     "name": "Ben van de Sande",
