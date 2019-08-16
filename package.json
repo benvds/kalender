@@ -5,18 +5,20 @@
   "main": "./src/kalender.js",
   "dependencies": {},
   "devDependencies": {
-    "mocha": "^2.2.1",
-    "ts-node": "^0.9.3",
-    "tsd": "^0.6.5",
-    "tsify": "^0.16.0",
-    "typescript": "^1.8.10",
-    "uglify-js": "^2.4.20"
+    "browserify": "^16.0.0",
+    "exorcist": "^1.0.1",
+    "mocha": "^6.0.0",
+    "ts-node": "^8.0.0",
+    "tsd": "^0.7.0",
+    "tsify": "^4.0.0",
+    "typescript": "^3.0.0",
+    "uglify-js": "^3.0.0"
   },
   "scripts": {
-    "test": "mocha --compilers ts:ts-node/register",
-    "test:watch": "mocha --watch test --compilers ts:ts-node/register",
+    "test": "mocha --require ts-node/register \"test/**/*.ts\"",
+    "test:watch": "mocha --watch test --require ts-node/register \"test/**/*.ts\"",
     "build": "browserify ./src/kalender.ts --plugin tsify --standalone kalender --debug | exorcist ./dist/kalender.js.map > ./dist/kalender.js",
-    "compress": "uglifyjs --compress warnings=false --mangle --bare-returns --output ./dist/kalender.min.js -- ./dist/kalender.js",
+    "compress": "uglifyjs --compress --mangle --bare-returns --output ./dist/kalender.min.js -- ./dist/kalender.js",
     "dist": "npm run build && npm run compress"
   },
   "author": {
