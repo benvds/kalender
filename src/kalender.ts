@@ -2,11 +2,11 @@ const daysPerWeek = 7;
 
 type Kalender = Date[][];
 type WeekStart = number;
-type DateArgs = Date | Month | string;
+type DateArgs = Date | IMonth | string;
 
-interface Month {
-    year: number;
-    month: number;
+interface IMonth {
+  year: number;
+  month: number;
 }
 
 /**
@@ -32,24 +32,27 @@ interface Month {
  *  @returns {Date[][]} nested arrays of dates grouped per week
  *
  */
-interface  KalenderOptionsObj {
-    weekStart: WeekStart;
+interface IKalenderOptionsObj {
+  weekStart: WeekStart;
 }
-type KalenderOptions = WeekStart | KalenderOptionsObj;
+type IKalenderOptions = WeekStart | IKalenderOptionsObj;
 
-export default function kalender(dateArgs: DateArgs = new Date(), options?: KalenderOptions): Kalender {
-    const month = monthFromDateArgs(dateArgs);
-    const weekStart = parseOptions(options);
-    const days = calendarDays(month, weekStart);
+export default function kalender(
+  dateArgs: DateArgs = new Date(),
+  options?: IKalenderOptions
+): Kalender {
+  const month = monthFromDateArgs(dateArgs);
+  const weekStart = parseOptions(options);
+  const days = calendarDays(month, weekStart);
 
-    return days.reduce(function fillCalendar(calendar, day, index) {
-        const weekIndex = Math.floor(index / daysPerWeek);
-        const dayIndex = index % daysPerWeek;
+  return days.reduce(function fillCalendar(calendar, day, index) {
+    const weekIndex = Math.floor(index / daysPerWeek);
+    const dayIndex = index % daysPerWeek;
 
-        calendar[weekIndex][dayIndex] = day;
+    calendar[weekIndex][dayIndex] = day;
 
-        return calendar;
-    }, emptyCalendar(days.length));
+    return calendar;
+  }, emptyCalendar(days.length));
 }
 
 /**
@@ -67,16 +70,16 @@ export default function kalender(dateArgs: DateArgs = new Date(), options?: Kale
  *  @returns {Date[]} an array of dates for the calendar
  *
  */
-function calendarDays(month: Month, weekStart: WeekStart): Date[] {
-    const startDayOfMonth = -1 * daysMissingBefore(month, weekStart);
-    const amountDays = totalDays(month, weekStart);
-    let result = new Array(amountDays);
+function calendarDays(month: IMonth, weekStart: WeekStart): Date[] {
+  const startDayOfMonth = -1 * daysMissingBefore(month, weekStart);
+  const amountDays = totalDaysForMonth(month, weekStart);
+  const result = new Array(amountDays);
 
-    for (let i = 1; i <= amountDays; i++) {
-        result[i - 1] = new Date(month.year, month.month, startDayOfMonth + i);
-    }
+  for (let i = 1; i <= amountDays; i++) {
+    result[i - 1] = new Date(month.year, month.month, startDayOfMonth + i);
+  }
 
-    return result;
+  return result;
 }
 
 /**
@@ -87,14 +90,14 @@ function calendarDays(month: Month, weekStart: WeekStart): Date[] {
  *  @returns {Object} a year/month object
  *
  */
-function monthFromDateArgs(dateArgs: DateArgs): Month {
-    if (dateArgs instanceof Date) {
-        return monthFromDate(dateArgs);
-    } else if (typeof dateArgs === 'object') {
-        return dateArgs;
-    } else {
-        return monthFromDate(new Date(dateArgs));
-    }
+function monthFromDateArgs(dateArgs: DateArgs): IMonth {
+  if (dateArgs instanceof Date) {
+    return monthFromDate(dateArgs);
+  } else if (typeof dateArgs === "object") {
+    return dateArgs;
+  } else {
+    return monthFromDate(new Date(dateArgs));
+  }
 }
 
 /**
@@ -103,14 +106,14 @@ function monthFromDateArgs(dateArgs: DateArgs): Month {
  *
  *  @argument {Date} date
  *
- *  @returns {Month} containing the date's year and month
+ *  @returns {IMonth} containing the date's year and month
  *
  */
-function monthFromDate(date: Date): Month {
-    return {
-        year: date.getFullYear(),
-        month: date.getMonth()
-    };
+function monthFromDate(date: Date): IMonth {
+  return {
+    month: date.getMonth(),
+    year: date.getFullYear()
+  };
 }
 
 /**
@@ -123,16 +126,16 @@ function monthFromDate(date: Date): Month {
  *  @returns {Number|undefined} the week start index
  *
  */
-function parseOptions(options?: KalenderOptions): WeekStart {
-    const defaultWeekStart = 0;
+function parseOptions(options?: IKalenderOptions): WeekStart {
+  const defaultWeekStart = 0;
 
-    if (typeof options === 'number') {
-        return options;
-    } else if (typeof options === 'object') {
-        return options.weekStart;
-    } else {
-        return defaultWeekStart;
-    }
+  if (typeof options === "number") {
+    return options;
+  } else if (typeof options === "object") {
+    return options.weekStart;
+  } else {
+    return defaultWeekStart;
+  }
 }
 
 /**
@@ -146,10 +149,11 @@ function parseOptions(options?: KalenderOptions): WeekStart {
  *  @returns {Number} amount of days missing before the first day of the month
  *
  */
-function daysMissingBefore(month: Month, weekStart: WeekStart): number {
-    return (
-        daysPerWeek - weekStart + new Date(month.year, month.month, 1).getDay()
-    ) % daysPerWeek;
+function daysMissingBefore(month: IMonth, weekStart: WeekStart): number {
+  return (
+    (daysPerWeek - weekStart + new Date(month.year, month.month, 1).getDay()) %
+    daysPerWeek
+  );
 }
 
 /**
@@ -161,8 +165,8 @@ function daysMissingBefore(month: Month, weekStart: WeekStart): number {
  *  @returns {Number} amount of days for a month excluding surrounding days
  *
  */
-function daysInMonth(month: Month): number {
-    return new Date(month.year, month.month + 1, 0).getDate();
+function daysInMonth(month: IMonth): number {
+  return new Date(month.year, month.month + 1, 0).getDate();
 }
 
 /**
@@ -175,11 +179,10 @@ function daysInMonth(month: Month): number {
  *  @returns {Number} amount of weeks for a month including surrounding days
  *
  */
-function weeksForMonth(month: Month, weekStart: WeekStart): number {
-    return Math.ceil(
-        (daysInMonth(month) +
-            daysMissingBefore(month, weekStart)) / daysPerWeek
-    );
+function weeksForMonth(month: IMonth, weekStart: WeekStart): number {
+  return Math.ceil(
+    (daysInMonth(month) + daysMissingBefore(month, weekStart)) / daysPerWeek
+  );
 }
 
 /**
@@ -192,8 +195,8 @@ function weeksForMonth(month: Month, weekStart: WeekStart): number {
  *  @returns {Number} amount of days for a month including surrounding days
  *
  */
-function totalDays(month: Month, weekStart: WeekStart): number {
-    return weeksForMonth(month, weekStart) * daysPerWeek;
+function totalDaysForMonth(month: IMonth, weekStart: WeekStart): number {
+  return weeksForMonth(month, weekStart) * daysPerWeek;
 }
 
 /**
@@ -205,12 +208,12 @@ function totalDays(month: Month, weekStart: WeekStart): number {
  *
  */
 function emptyCalendar(totalDays: number): Kalender {
-    const totalWeeks = totalDays / daysPerWeek;
-    let result = [];
+  const totalWeeks = totalDays / daysPerWeek;
+  const result = [];
 
-    for (let i = 0; i < totalWeeks; i++) {
-        result[i] = new Array(daysPerWeek);
-    }
+  for (let i = 0; i < totalWeeks; i++) {
+    result[i] = new Array(daysPerWeek);
+  }
 
-    return result;
+  return result;
 }

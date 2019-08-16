@@ -41,7 +41,7 @@
      */
     function calendarDays(month, weekStart) {
         var startDayOfMonth = -1 * daysMissingBefore(month, weekStart);
-        var amountDays = totalDays(month, weekStart);
+        var amountDays = totalDaysForMonth(month, weekStart);
         var result = new Array(amountDays);
         for (var i = 1; i <= amountDays; i++) {
             result[i - 1] = new Date(month.year, month.month, startDayOfMonth + i);
@@ -60,7 +60,7 @@
         if (dateArgs instanceof Date) {
             return monthFromDate(dateArgs);
         }
-        else if (typeof dateArgs === 'object') {
+        else if (typeof dateArgs === "object") {
             return dateArgs;
         }
         else {
@@ -73,13 +73,13 @@
      *
      *  @argument {Date} date
      *
-     *  @returns {Month} containing the date's year and month
+     *  @returns {IMonth} containing the date's year and month
      *
      */
     function monthFromDate(date) {
         return {
-            year: date.getFullYear(),
-            month: date.getMonth()
+            month: date.getMonth(),
+            year: date.getFullYear()
         };
     }
     /**
@@ -94,10 +94,10 @@
      */
     function parseOptions(options) {
         var defaultWeekStart = 0;
-        if (typeof options === 'number') {
+        if (typeof options === "number") {
             return options;
         }
-        else if (typeof options === 'object') {
+        else if (typeof options === "object") {
             return options.weekStart;
         }
         else {
@@ -116,7 +116,8 @@
      *
      */
     function daysMissingBefore(month, weekStart) {
-        return (daysPerWeek - weekStart + new Date(month.year, month.month, 1).getDay()) % daysPerWeek;
+        return ((daysPerWeek - weekStart + new Date(month.year, month.month, 1).getDay()) %
+            daysPerWeek);
     }
     /**
      *  Returns actual days in a month excluding surrounding days
@@ -141,8 +142,7 @@
      *
      */
     function weeksForMonth(month, weekStart) {
-        return Math.ceil((daysInMonth(month) +
-            daysMissingBefore(month, weekStart)) / daysPerWeek);
+        return Math.ceil((daysInMonth(month) + daysMissingBefore(month, weekStart)) / daysPerWeek);
     }
     /**
      *  Returns the totals days for a month including surrounding days.
@@ -154,7 +154,7 @@
      *  @returns {Number} amount of days for a month including surrounding days
      *
      */
-    function totalDays(month, weekStart) {
+    function totalDaysForMonth(month, weekStart) {
         return weeksForMonth(month, weekStart) * daysPerWeek;
     }
     /**
