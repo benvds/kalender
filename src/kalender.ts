@@ -14,12 +14,12 @@ interface IMonth {
  *  month.
  *
  *  Examples:
- *      kalender() == kalender(new Date())
- *      kalender(new Date(2014, 0, 31))
- *      kalender({ year: 2014, month: 0 })
- *      kalender('2014-1-31')
- *      kalender('2014-1-31', 1)
- *      kalender({ weekStart: 1 }) == kalender(new Date(), 1)
+ *      kal() == kal(new Date())
+ *      kal(new Date(2014, 0, 31))
+ *      kal({ year: 2014, month: 0 })
+ *      kal('2014-1-31')
+ *      kal('2014-1-31', 1)
+ *      kal({ weekStart: 1 }) == kal(new Date(), 1)
  *
  *  @argument {Date|Object|String} dateArgs a value which represents a date.
  *              An object should contain a year and month value like, e.g.
@@ -37,7 +37,7 @@ interface IKalenderOptionsObj {
 }
 type IKalenderOptions = WeekStart | IKalenderOptionsObj;
 
-export default function kalender(
+export default function kal(
   dateArgs: DateArgs = new Date(),
   options?: IKalenderOptions
 ): Kalender {

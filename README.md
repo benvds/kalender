@@ -1,15 +1,15 @@
 # Kalender
 
-Returns a nested array of calendar dates.
+Returns a nested array (matrix) of calendar dates as Date objects. Adds "surrounding" dates to a month to fill the matrix.
 
 ## Usage
 
-    kalender() == kalender(new Date())
-    kalender(new Date(2014, 0, 31))
-    kalender({ year: 2014, month: 0 })
-    kalender('2014-1-31')
-    kalender('2014-1-31', 1)
-    kalender({ weekStart: 1 }) == kalender(new Date(), 1)
+    kal() == kal(new Date())
+    kal(new Date(2014, 0, 31))
+    kal({ year: 2014, month: 0 })
+    kal('2014-1-31')
+    kal('2014-1-31', 1)
+    kal({ weekStart: 1 }) == kal(new Date(), 1)
 
 
 ## Why
