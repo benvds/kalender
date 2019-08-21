@@ -1,6 +1,6 @@
 {
   "name": "klndr",
-  "version": "0.9.0",
+  "version": "0.9.1",
   "description": "Basic module for rendering calendars / datepickers.",
   "source": "src/klndr.ts",
   "main": "dist/klndr.js",
