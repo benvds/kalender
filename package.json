@@ -1,12 +1,12 @@
 {
-  "name": "kalender",
+  "name": "klndr",
   "version": "0.9.0",
   "description": "Basic module for rendering calendars / datepickers.",
-  "source": "src/kalender.ts",
-  "main": "dist/kalender.js",
-  "types": "dist/src/kalender.d.ts",
-  "module": "dist/kalender.mjs",
-  "umd:main": "dist/kalender.umd.js",
+  "source": "src/klndr.ts",
+  "main": "dist/klndr.js",
+  "types": "dist/src/klndr.d.ts",
+  "module": "dist/klndr.mjs",
+  "umd:main": "dist/klndr.umd.js",
   "dependencies": {},
   "devDependencies": {
     "microbundle": "^0.11.0",

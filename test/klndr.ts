@@ -2,7 +2,7 @@
 /// <reference path="../typings/mocha/mocha.d.ts" />
 
 import * as assert from "assert";
-import kal from "../src/kalender";
+import kal from "../src/klndr";
 
 describe("kalender", () => {
   it("returns a table of dates", () => {
