@@ -1,33 +1,32 @@
 {
   "name": "kalender",
-  "version": "0.4.1",
-  "description": "Basic component for rendering calendars.",
-  "main": "./src/kalender.js",
+  "version": "0.9.0",
+  "description": "Basic module for rendering calendars / datepickers.",
+  "source": "src/kalender.ts",
+  "main": "dist/kalender.js",
+  "types": "dist/src/kalender.d.ts",
+  "module": "dist/kalender.mjs",
+  "umd:main": "dist/kalender.umd.js",
   "dependencies": {},
   "devDependencies": {
-    "browserify": "^16.0.0",
-    "exorcist": "^1.0.1",
+    "microbundle": "^0.11.0",
     "mocha": "^6.0.0",
     "prettier": "^1.18.2",
-    "ts-node": "^8.0.0",
-    "tsd": "^0.7.0",
-    "tsify": "^4.0.0",
+    "ts-node": "^8.3.0",
     "tslint": "^5.18.0",
     "tslint-config-prettier": "^1.18.0",
-    "typescript": "^3.0.0",
-    "uglify-js": "^3.0.0"
+    "typescript": "^3.0.0"
   },
   "scripts": {
     "test": "mocha --require ts-node/register \"test/**/*.ts\"",
     "test:watch": "mocha --watch test --require ts-node/register \"test/**/*.ts\"",
-    "build": "browserify ./src/kalender.ts --plugin tsify --standalone kalender --debug | exorcist ./dist/kalender.js.map > ./dist/kalender.js",
-    "compress": "uglifyjs --compress --mangle --bare-returns --output ./dist/kalender.min.js -- ./dist/kalender.js",
-    "dist": "npm run build && npm run compress",
+    "dev": "microbundle --watch",
+    "build": "microbundle",
     "lint": "tslint -c tslint.json \"src/**/*.ts\""
   },
   "author": {
     "name": "Ben van de Sande",
-    "email": "ben@pomodoro.nl"
+    "email": "info@getlean.digital"
   },
   "license": "MIT"
 }
